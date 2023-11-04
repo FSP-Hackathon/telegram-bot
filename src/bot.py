@@ -78,7 +78,7 @@ class Bot:
                 parse_mode=parse_mode,
             )
 
-    async def sendAlert(alert: Alert):
+    def sendAlert(alert: Alert):
         logger.debug(f'sendAlert(alert = {alert})')
 
         chats = Bot.__getChatIdsByUsernames(alert.users)
@@ -87,7 +87,7 @@ class Bot:
         for chat in chats:
             logger.debug(f'sendAlert(chat = {chat})')
             logger.debug(f'sendAlert(Bot.context = {Bot.context})')
-            await Bot.context.bot.send_message(
+            Bot.context.bot.send_message(
                 chat_id=chat,
                 text=alert.msg,
                 # parse_mode=parse_mode,
@@ -134,16 +134,16 @@ class Bot:
             Strings.translate('welcome'),
         )
 
-    async def scanAlerts():
+    def scanAlerts():
         logger.debug(f'scanAlerts(SCAN_ALERTS_TIME_SECONDS={SCAN_ALERTS_TIME_SECONDS})')
         logger.debug(f'scanAlerts(alertsToSend={Bot.alertsToSend})')
 
         if len(Bot.alertsToSend) != 0:
             alert = Bot.alertsToSend.pop()
-            await Bot.sendAlert(alert)
+            Bot.sendAlert(alert)
         
-        await asyncio.sleep(SCAN_ALERTS_TIME_SECONDS)
-        await Bot.scanAlerts()
+        t = Timer(SCAN_ALERTS_TIME_SECONDS, Bot.scanAlerts)
+        t.start()
             
 
     def runBot() -> None:
@@ -151,8 +151,8 @@ class Bot:
 
         BotUsersDatabase.init(drop=False)
 
-        thread = Thread(target = Bot.scanAlerts)
-        thread.start()
+        t = Timer(SCAN_ALERTS_TIME_SECONDS, Bot.scanAlerts)
+        t.start()
 
         # loop = asyncio.new_event_loop()
         # asyncio.set_event_loop(loop)
