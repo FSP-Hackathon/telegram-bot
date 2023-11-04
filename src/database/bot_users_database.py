@@ -98,5 +98,8 @@ class BotUsersDatabase:
         result = cursor.fetchone()
 
         logger.debug(f'getChatIdByUsername(result = {result})')
-
-        return result
+        
+        if result == None:
+            return None
+        
+        return result[0]
