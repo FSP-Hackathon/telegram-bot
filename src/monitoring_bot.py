@@ -26,7 +26,6 @@ class MonitoringBot:
     def run() -> None:
         logger.debug(f'run()')
         BotUsersDatabase.init(drop=False)
-        MonitoringBot.bot.add_custom_filter(WhitelistFilter())
         MonitoringBot.bot.infinity_polling()
 
     def __getChatOfUser(user: str) -> str:
@@ -51,7 +50,7 @@ class MonitoringBot:
             MonitoringBot.sendMessageToUser(user=user, msg=msg)
 
     def __checkUserWhitelisted(message, username: str) -> bool:
-        isWhitelisted = WhitelistFilter.checkByUsername(username)
+        isWhitelisted = MonitoringBot.isUserWhitelisted(username)
         if not isWhitelisted:
             MonitoringBot.bot.reply_to(message, Strings.translate('not_whitelisted'))
         return isWhitelisted
