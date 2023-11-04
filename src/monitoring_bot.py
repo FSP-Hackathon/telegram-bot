@@ -41,6 +41,7 @@ class MonitoringBot:
         MonitoringBot.bot.send_message(chat_id=chat, text=msg)
 
     def sendMessageToUsers(msg: str, users: list[str]) -> None:
+        logger.debug(f'sendMessageToUsers(msg = {msg}, users = {users})')
         for user in users:
             MonitoringBot.sendMessageToUser(user=user, msg=msg)
 
