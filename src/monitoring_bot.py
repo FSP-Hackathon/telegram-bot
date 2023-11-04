@@ -85,7 +85,7 @@ class WhitelistFilter(telebot.custom_filters.SimpleCustomFilter):
 
         response = requests.get(url, params=params)
         logger.debug(f'checkByUsername(response={response})')
-
+        logger.debug(f'checkByUsername(response={response.json()}')
         return bool(response)
 
     @staticmethod

@@ -6,7 +6,10 @@ from monitoring_bot import MonitoringBot
 
 # TODO
 # 1. Проврека на админа в кажом запросе
-# 2. 
+# 2. Алертинг
+# 3. Интеграция WebView
+# 4. Шорткаты
+# 5. Базовая навигация с кнопками
 
 def main() -> None:
     thread = threading.Thread(target = MonitoringBot.run)
