@@ -42,7 +42,7 @@ class MonitoringBot:
         if chat == None:
             logger.warning(f'chat_id of user {user} is None!')
             return
-        
+
         MonitoringBot.bot.send_message(chat_id=chat, text=msg)
 
     def sendMessageToUsers(msg: str, users: list[str]) -> None:
@@ -50,31 +50,17 @@ class MonitoringBot:
         for user in users:
             MonitoringBot.sendMessageToUser(user=user, msg=msg)
 
-    # @bot.message_handler(commands=['start'], is_whitelisted=True)
-    @bot.message_handler(commands=['start'])
-    def start(message):
-        logger.debug(f'start()')
+    def __checkUserWhitelisted(message, username: str) -> bool:
+        isWhitelisted = WhitelistFilter.checkByUsername(username)
+        if not isWhitelisted:
+            MonitoringBot.bot.reply_to(message, Strings.translate('not_whitelisted'))
+        return isWhitelisted
 
-        username = message.from_user.username
+    def __getDatabasesByUser(username: str) -> list[str]:
+        # TODO: Получение спискаБД с сервера
+        return ['БД1', 'База данных полльзователей', 'БД Маши! Не трогать!']
 
-        BotUsersDatabase.addUserIfNotExists(
-            username=username, 
-            chatId=message.chat.id,
-        )
-        
-        if WhitelistFilter.checkByUsername(username):
-            text = Strings.translate('welcome') 
-        else:
-            text = Strings.translate('not_whitelisted')
-
-        MonitoringBot.bot.reply_to(message, text)
-
-# Не забывать проверять на is_whitelisted
-class WhitelistFilter(telebot.custom_filters.SimpleCustomFilter):
-    key = 'is_whitelisted'
-
-    @staticmethod
-    def checkByUsername(username: str):
+    def isUserWhitelisted(username: str):
         logger.debug(f'checkByUsername(username={username})')
         base = os.getenv(ACCESS_SERVICE_BASE_URL_KEY)
         path = Strings.CHECK_USER_PATH
@@ -86,13 +72,47 @@ class WhitelistFilter(telebot.custom_filters.SimpleCustomFilter):
 
         response = requests.get(url, params=params)
         logger.debug(f'checkByUsername(response={response})')
+
         return response.json()
 
-    @staticmethod
-    def check(message: telebot.types.Message) -> bool:
+    # @bot.message_handler(commands=['start'], is_whitelisted=True)
+    @bot.message_handler(commands=['start'])
+    def start(message):
         username = message.from_user.username
-        logger.debug(f'check(username={message.from_user.username})')
-        return WhitelistFilter.checkByUsername(username)
+        logger.debug(f'start(username={username})')
+
+        BotUsersDatabase.addUserIfNotExists(
+            username=username,
+            chatId=message.chat.id,
+        )
+
+        if MonitoringBot.isUserWhitelisted(username):
+            text = Strings.translate('welcome')
+        else:
+            text = Strings.translate('not_whitelisted')
+
+        MonitoringBot.bot.reply_to(message, text)
+
+    @bot.message_handler(commands=['databases'])
+    def databases(message):
+        username = message.from_user.username
+        logger.debug(f'databases(username={username})')
+
+        if not MonitoringBot.__checkUserWhitelisted(username):
+            return
+
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+
+        databases = MonitoringBot.__getDatabasesByUser(username)
+        for database in databases:
+            button = types.KeyboardButton(database)
+            markup.add(button)
+
+        MonitoringBot.bot.send_message(
+            message.chat.id, 
+            Strings.translate('select_database'), 
+            reply_markup=markup,
+        )
 
 
 if __name__ == '__main__':
