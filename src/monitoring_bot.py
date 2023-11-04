@@ -97,7 +97,7 @@ class MonitoringBot:
         username = message.from_user.username
         logger.debug(f'databases(username={username})')
 
-        if not MonitoringBot.__checkUserWhitelisted(username):
+        if not MonitoringBot.__checkUserWhitelisted(message, username):
             return
 
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
