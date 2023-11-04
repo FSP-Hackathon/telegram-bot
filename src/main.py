@@ -3,10 +3,13 @@ from bot import Bot
 from multiprocessing import Process
 
 def main() -> None:
-    api = Process(target=runApi(), daemon=True)
-    bot = Process(target=Bot.runBot(), daemon=True)
+    api = Process(target=runApi())
+    bot = Process(target=Bot.runBot())
     api.start()
     bot.start()    
+
+    api.join()
+    bot.join()
 
 if __name__ == '__main__':
     main()
