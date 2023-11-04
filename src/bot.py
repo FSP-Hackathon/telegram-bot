@@ -30,8 +30,6 @@ load_dotenv()
 
 
 class Bot:
-    context: ContextTypes.DEFAULT_TYPE
-
     def __getToken() -> str:
         return os.getenv(BOT_TOKEN_KEY)
 
