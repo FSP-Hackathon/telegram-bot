@@ -140,7 +140,7 @@ class Bot:
             alert = Bot.alertsToSend.pop()
             await Bot.sendAlert(alert)
         
-        t = Timer(SCAN_ALERTS_TIME_SECONDS, Bot.scanAlerts)
+        t = Timer(SCAN_ALERTS_TIME_SECONDS, await Bot.scanAlerts)
         t.start()
             
 
