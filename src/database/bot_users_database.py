@@ -72,8 +72,11 @@ class BotUsersDatabase:
         BotUsersDatabase.__checkInit()
         path = os.path.dirname(os.path.realpath(__file__))
 
+        logger.debug(f'addUserIfNotExists(path = {path}')
+
         with open(path + BOT_USERS_DATABASE_INSERT_FILE, 'r') as file:
             sql = file.read()
+            logger.debug(f'addUserIfNotExists(sql = {sql}')
             BotUsersDatabase.__getCursor().execute(sql, (username, chatId))
             BotUsersDatabase.connection.commit()
 
