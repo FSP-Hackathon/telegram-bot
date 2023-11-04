@@ -130,12 +130,12 @@ class Bot:
             Strings.translate('welcome'),
         )
 
-    def scanAlerts():
+    async def scanAlerts():
         logger.debug(f'scanAlerts(SCAN_ALERTS_TIME_SECONDS={SCAN_ALERTS_TIME_SECONDS})')
         logger.debug(f'scanAlerts(alertsToSend={Bot.alertsToSend})')
         if len(Bot.alertsToSend) != 0:
             alert = Bot.alertsToSend.pop()
-            Bot.sendAlert(alert)
+            await Bot.sendAlert(alert)
         
         t = Timer(SCAN_ALERTS_TIME_SECONDS, Bot.scanAlerts)
         t.start()
@@ -146,7 +146,7 @@ class Bot:
 
         BotUsersDatabase.init(drop=False)
 
-        Bot.scanAlerts()
+        asyncio.run(Bot.scanAlerts())
 
         application = Application.builder().token(token).concurrent_updates(True).build()
 
