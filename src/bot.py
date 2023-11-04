@@ -112,7 +112,7 @@ class Bot:
             Strings.translate('welcome'),
         )
 
-    def start():
+    def runBot() -> None:
         token = Bot.__getToken()
 
         BotUsersDatabase.init(drop=False)
@@ -140,10 +140,6 @@ class Bot:
         # application.add_handler(conv_handler)
 
         application.run_polling(allowed_updates=Update.ALL_TYPES)
-
-    def runBot(loop) -> None:
-        asyncio.set_event_loop(loop)
-        loop.run_until_complete(Bot.start())
 
 
 if __name__ == '__main__':

@@ -56,7 +56,7 @@ def alert():
 
 
 def runApi():
-    app.run(host='0.0.0.0', port=1082)
+    app.run(host='0.0.0.0', port=1082, debug=True, use_reloader=False)
 
 
 if __name__ == '__main__':
