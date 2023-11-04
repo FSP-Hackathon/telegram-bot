@@ -51,7 +51,7 @@ def __parseRequest(request) -> (str, str):
 def alert():
     error_message, token = __parseRequest(request)
     users = __getUsersToNotify(token)
-    alert = Alert(msg=error_message, chats_id=users)
+    alert = Alert(msg=error_message, users=users)
     Bot.alertsToSend.append(alert)
     return ('', 200)
 
