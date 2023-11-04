@@ -50,7 +50,8 @@ class MonitoringBot:
         for user in users:
             MonitoringBot.sendMessageToUser(user=user, msg=msg)
 
-    @bot.message_handler(commands=['start'], is_whitelisted=True)
+    # @bot.message_handler(commands=['start'], is_whitelisted=True)
+    @bot.message_handler(commands=['start'])
     def start(message):
         logger.debug(f'start()')
 
