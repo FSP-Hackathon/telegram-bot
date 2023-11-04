@@ -116,6 +116,8 @@ class Bot:
         )
 
     def scanAlerts():
+        logger.debug(f'scanAlerts(SCAN_ALERTS_TIME_SECONDS={SCAN_ALERTS_TIME_SECONDS})')
+        logger.debug(f'scanAlerts(alertsToSend={Bot.alertsToSend})')
         if len(Bot.alertsToSend) != 0:
             Bot.notifyUsers(Bot.alertsToSend)
             Bot.alertsToSend.clear()
