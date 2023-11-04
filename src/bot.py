@@ -146,9 +146,8 @@ class Bot:
 
         BotUsersDatabase.init(drop=False)
 
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        loop.run_until_complete(Bot.scanAlerts())
+        timer = Timer(SCAN_ALERTS_TIME_SECONDS, Bot.scanAlerts)
+        timer.start()
 
         application = Application.builder().token(token).concurrent_updates(True).build()
 
