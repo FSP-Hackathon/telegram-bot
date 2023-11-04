@@ -140,8 +140,8 @@ class Bot:
             alert = Bot.alertsToSend.pop()
             await Bot.sendAlert(alert)
         
-        t = Timer(SCAN_ALERTS_TIME_SECONDS, asyncio.run(Bot.scanAlerts))
-        t.start()
+        asyncio.sleep(SCAN_ALERTS_TIME_SECONDS)
+        await Bot.scanAlerts()
             
 
     def runBot() -> None:
