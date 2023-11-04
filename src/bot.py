@@ -179,7 +179,7 @@ class Bot:
         
         bot = telegram.Bot(token=token)
         updater = Updater(bot=bot, update_queue=True)
-        job_queue = updater.job_queue
+        job_queue = updater
         job_queue.run_repeating(Bot.scanAlerts, interval=SCAN_ALERTS_TIME_SECONDS, first=0.0)
         updater.start_polling()
     

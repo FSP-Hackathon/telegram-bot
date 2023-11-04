@@ -12,3 +12,6 @@ class Strings:
 
     def translate(key: str) -> str:
         return Strings.translations[Strings.current][key]
+
+
+    CHECK_USER_PATH = 'api/user/check'

@@ -3,3 +3,4 @@ logging
 psycopg2
 python-dotenv
 flask
+pyTelegramBotAPI
