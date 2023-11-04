@@ -48,7 +48,7 @@ class Bot:
         for user in users:
             chat = BotUsersDatabase.getChatIdByUsername(user)
             if chat != None:
-                chats.append(chat)
+                chats.append(chat[0])
         logger.debug(f'__getChatsOfUsers(chats = {chats})')
 
         return chats
