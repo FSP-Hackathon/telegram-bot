@@ -38,7 +38,7 @@ class MonitoringBot:
     def sendMessageToUser(msg: str, user: str) -> None:
         logger.debug(f'sendMessageToUser(user = {user}, msg = {msg})')
         chat = MonitoringBot.__getChatOfUser(user)
-        MonitoringBot.bot.send_message(chat, msg)
+        MonitoringBot.bot.send_message(chat_id=chat, text=msg)
 
     def sendMessageToUsers(msg: str, users: list[str]) -> None:
         for user in users:

@@ -39,7 +39,7 @@ def __getUsersToNotify(token: str) -> list:
 def __parseRequest(request) -> (str, str):
     logger.debug(f'__parseRequest(request = {request})')
 
-    error_message = request.args.get('msg')
+    error_message = request.json.get('msg')
     token = request.headers.get('Authorization')
 
     logger.debug(f'__parseRequest(error_message = {error_message})')
