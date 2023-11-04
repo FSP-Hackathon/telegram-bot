@@ -36,6 +36,7 @@ class Alert:
         self.users = users
 
 class Bot:
+    context = None
     alertsToSend = []
 
     def __getToken() -> str:
@@ -85,6 +86,7 @@ class Bot:
 
         for chat in chats:
             logger.debug(f'sendAlert(chat = {chat})')
+            logger.debug(f'sendAlert(Bot.context = {Bot.context})')
             await Bot.context.bot.send_message(
                 chat_id=chat,
                 text=alert.msg,
