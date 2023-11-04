@@ -68,6 +68,7 @@ class BotUsersDatabase:
             logging.error(f'Error while working with BotUsersDatabase! {e}')
 
     def addUserIfNotExists(username: str, chatId: str) -> None:
+        logger.debug(f'addUserIfNotExists(username = {username}, chatId = {chatId})')
         BotUsersDatabase.__checkInit()
         path = os.path.dirname(os.path.realpath(__file__))
 
