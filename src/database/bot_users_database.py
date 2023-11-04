@@ -80,12 +80,15 @@ class BotUsersDatabase:
         
         BotUsersDatabase.cursor = BotUsersDatabase.connection.cursor()
 
+        all = BotUsersDatabase.cursor.execute('SELECT * FROM bot_users')
+        logger.debug(f'getChatIdByUsername(all = {all})')
+
         BotUsersDatabase.cursor.execute(
             'SELECT chat_id FROM bot_users WHERE "username" = %s', (username,),
         )
         
-        reesult = BotUsersDatabase.cursor.fetchone()
+        result = BotUsersDatabase.cursor.fetchone()
 
-        logger.debug(f'getChatIdByUsername(reesult = {reesult})')
+        logger.debug(f'getChatIdByUsername(reesult = {result})')
 
-        return reesult[0]
+        return result[0]
