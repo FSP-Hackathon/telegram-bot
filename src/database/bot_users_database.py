@@ -87,8 +87,8 @@ class BotUsersDatabase:
             'SELECT * FROM bot_users WHERE username = %s', (username,),
         )
         
-        result = BotUsersDatabase.cursor.fetchall()
+        result = BotUsersDatabase.cursor.fetchone()
 
         logger.debug(f'getChatIdByUsername(result = {result})')
 
-        return result[0]
+        return result
