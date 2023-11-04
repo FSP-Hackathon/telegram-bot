@@ -3,7 +3,7 @@ import os
 import traceback
 import asyncio
 
-from threading import Timer
+from threading import Timer, Thread
 from dotenv import load_dotenv
 from telegram import Update
 
@@ -151,8 +151,14 @@ class Bot:
 
         BotUsersDatabase.init(drop=False)
 
+        thread = Thread(target = Bot.scanAlerts)
+        thread.start()
 
-        application = Application.builder().token(token).concurrent_updates(True).build()
+        # loop = asyncio.new_event_loop()
+        # asyncio.set_event_loop(loop)
+        # asyncio.run(Bot.scanAlerts())
+
+        application = Application.builder().token(token).build()
 
         # conv_handler = ConversationHandler(
         #     entry_points=[CommandHandler("start", start)],
@@ -175,10 +181,6 @@ class Bot:
         # application.add_handler(conv_handler)
 
         application.run_polling(allowed_updates=Update.ALL_TYPES)
-
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        asyncio.run(Bot.scanAlerts())
 
 
 if __name__ == '__main__':
