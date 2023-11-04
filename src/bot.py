@@ -3,6 +3,7 @@ import os
 import traceback
 import asyncio
 
+from threading import Timer
 from dotenv import load_dotenv
 from telegram import Update
 
@@ -25,11 +26,18 @@ ERRORS, METRICS, STATUS, BIO = range(4)
 BOT_TOKEN_KEY = 'BOT_TOKEN'
 
 admins = ['OwlCodR']
+SCAN_ALERTS_TIME_SECONDS = 1
 
 load_dotenv()
 
+class Alert:
+    def __init__(self, msg: str, chats_id: list[str]) -> None:
+        self.msg = msg
+        self.chats_id = chats_id
 
 class Bot:
+    alertsToSend = []
+
     def __getToken() -> str:
         return os.getenv(BOT_TOKEN_KEY)
 
@@ -69,7 +77,6 @@ class Bot:
             )
 
     async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
-        Bot.context = context
         logger.error("Exception while handling an update:",
                      exc_info=context.error)
 
@@ -87,8 +94,6 @@ class Bot:
         )
 
     async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-        Bot.context = context
-
         username = update.message.from_user['username']
         logger.debug(f'start(username = {username})')
 
@@ -109,6 +114,15 @@ class Bot:
         await update.message.reply_text(
             Strings.translate('welcome'),
         )
+
+    def scanAlerts():
+        if len(Bot.alertsToSend) != 0:
+            Bot.notifyUsers(Bot.alertsToSend)
+            Bot.alertsToSend.clear()
+        
+        t = Timer(SCAN_ALERTS_TIME_SECONDS, Bot.scanAlerts)
+        t.start()
+            
 
     def runBot() -> None:
         token = Bot.__getToken()
@@ -138,6 +152,8 @@ class Bot:
         # application.add_handler(conv_handler)
 
         application.run_polling(allowed_updates=Update.ALL_TYPES)
+
+        Bot.scanAlerts()
 
 
 if __name__ == '__main__':

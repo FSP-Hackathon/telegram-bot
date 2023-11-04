@@ -6,7 +6,7 @@ import asyncio
 
 from flask import Flask, request, jsonify
 
-from bot import Bot
+from bot import Alert, Bot
 
 app = Flask(__name__)
 
@@ -51,10 +51,8 @@ def __parseRequest(request) -> (str, str):
 def alert():
     error_message, token = __parseRequest(request)
     users = __getUsersToNotify(token)
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    loop.run_until_complete(__notifyUsers(users, error_message))
-    loop.close()
+    alert = Alert(msg=error_message, chats_id=users)
+    Bot.alertsToSend.append(alert)
     return ('', 200)
 
 
