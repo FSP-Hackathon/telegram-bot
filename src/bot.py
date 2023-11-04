@@ -151,7 +151,6 @@ class Bot:
 
         BotUsersDatabase.init(drop=False)
 
-        asyncio.run(Bot.scanAlerts())
 
         application = Application.builder().token(token).concurrent_updates(True).build()
 
@@ -175,9 +174,11 @@ class Bot:
 
         # application.add_handler(conv_handler)
 
+        application.run_polling(allowed_updates=Update.ALL_TYPES)
+
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
-        application.run_polling(allowed_updates=Update.ALL_TYPES)
+        asyncio.run(Bot.scanAlerts())
 
 
 if __name__ == '__main__':
