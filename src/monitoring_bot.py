@@ -81,6 +81,8 @@ class WhitelistFilter(telebot.custom_filters.SimpleCustomFilter):
         url = f'{base}/{path}'
         params = {'nickname': username}
 
+        logger.debug(f'checkByUsername(url={url}, params = {params})')
+
         response = requests.get(url, params=params)
         logger.debug(f'checkByUsername(response={response})')
 
@@ -88,7 +90,9 @@ class WhitelistFilter(telebot.custom_filters.SimpleCustomFilter):
 
     @staticmethod
     def check(message: telebot.types.Message) -> bool:
-        return WhitelistFilter.checkByUsername(message.from_user.username)
+        username = message.from_user.username
+        logger.debug(f'check(username={message.from_user.username})')
+        return WhitelistFilter.checkByUsername(username)
 
 
 if __name__ == '__main__':
