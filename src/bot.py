@@ -31,9 +31,9 @@ SCAN_ALERTS_TIME_SECONDS = 1
 load_dotenv()
 
 class Alert:
-    def __init__(self, msg: str, chats_id: list[str]) -> None:
+    def __init__(self, msg: str, users: list[str]) -> None:
         self.msg = msg
-        self.chats_id = chats_id
+        self.users = users
 
 class Bot:
     alertsToSend = []
@@ -74,6 +74,21 @@ class Bot:
             await Bot.context.bot.send_message(
                 chat_id=chat,
                 text=message,
+                parse_mode=parse_mode,
+            )
+
+    async def sendAlert(alert: Alert):
+        logger.debug(f'sendAlert(alert = {alert})')
+
+        chats = Bot.__getChatIdsByUsernames(alert.users)
+        logger.debug(f'sendAlert(chats = {chats})')
+
+        for chat in chats:
+            logger.debug(f'sendAlert(chat = {chat})')
+            await Bot.context.bot.send_message(
+                chat_id=chat,
+                text=alert.msg,
+                # parse_mode=parse_mode,
             )
 
     async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -119,8 +134,8 @@ class Bot:
         logger.debug(f'scanAlerts(SCAN_ALERTS_TIME_SECONDS={SCAN_ALERTS_TIME_SECONDS})')
         logger.debug(f'scanAlerts(alertsToSend={Bot.alertsToSend})')
         if len(Bot.alertsToSend) != 0:
-            Bot.notifyUsers(Bot.alertsToSend)
-            Bot.alertsToSend.clear()
+            alert = Bot.alertsToSend.pop()
+            Bot.sendAlert(alert)
         
         t = Timer(SCAN_ALERTS_TIME_SECONDS, Bot.scanAlerts)
         t.start()
