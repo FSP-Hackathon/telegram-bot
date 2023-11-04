@@ -51,6 +51,7 @@ def alert():
     error_message, token = __parseRequest(request)
     users = __getUsersToNotify(token)
     __notifyUsers(users, error_message)
+    return ('', 200)
 
 
 def runApi():
