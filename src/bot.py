@@ -92,6 +92,7 @@ class Bot:
             )
 
     async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
+        Bot.context = context
         logger.error("Exception while handling an update:",
                      exc_info=context.error)
 
@@ -109,6 +110,7 @@ class Bot:
         )
 
     async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+        Bot.context = context
         username = update.message.from_user['username']
         logger.debug(f'start(username = {username})')
 
@@ -133,6 +135,7 @@ class Bot:
     async def scanAlerts():
         logger.debug(f'scanAlerts(SCAN_ALERTS_TIME_SECONDS={SCAN_ALERTS_TIME_SECONDS})')
         logger.debug(f'scanAlerts(alertsToSend={Bot.alertsToSend})')
+
         if len(Bot.alertsToSend) != 0:
             alert = Bot.alertsToSend.pop()
             await Bot.sendAlert(alert)
@@ -146,8 +149,7 @@ class Bot:
 
         BotUsersDatabase.init(drop=False)
 
-        timer = Timer(SCAN_ALERTS_TIME_SECONDS, Bot.scanAlerts)
-        timer.start()
+        asyncio.run(Bot.scanAlerts())
 
         application = Application.builder().token(token).concurrent_updates(True).build()
 
