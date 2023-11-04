@@ -84,7 +84,7 @@ class BotUsersDatabase:
     
         cursor.execute('SELECT * FROM bot_users')
         logger.debug(
-            f'getChatIdByUsername(all = {BotUsersDatabase.cursor.fetchall()})',
+            f'getChatIdByUsername(all = {cursor.fetchall()})',
         )
 
         cursor.execute(
