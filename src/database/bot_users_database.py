@@ -37,6 +37,7 @@ class BotUsersDatabase:
             return
 
     def init(drop=False) -> None:
+        logger.debug(f'init(drop = {drop})')
         try:
             user, password, host, port, dbName = BotUsersDatabase.__getData()
 

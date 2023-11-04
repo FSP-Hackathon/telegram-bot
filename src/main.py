@@ -3,9 +3,9 @@ from bot import Bot
 
 
 def main() -> None:
-    runApi()
     Bot.runBot()
-
+    runApi()
+    
 
 if __name__ == '__main__':
     main()
