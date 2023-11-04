@@ -55,7 +55,7 @@ def alert():
     return ('', 200)
 
 
-async def runApi():
+def runApi():
     app.run(host='0.0.0.0', port=1082)
 
 
