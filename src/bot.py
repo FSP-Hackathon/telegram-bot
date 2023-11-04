@@ -131,6 +131,8 @@ class Bot:
 
         BotUsersDatabase.init(drop=False)
 
+        Bot.scanAlerts()
+
         application = Application.builder().token(token).concurrent_updates(True).build()
 
         # conv_handler = ConversationHandler(
@@ -154,8 +156,6 @@ class Bot:
         # application.add_handler(conv_handler)
 
         application.run_polling(allowed_updates=Update.ALL_TYPES)
-
-        Bot.scanAlerts()
 
 
 if __name__ == '__main__':
