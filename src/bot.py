@@ -2,6 +2,7 @@ import logging
 import os
 import traceback
 import asyncio
+import telegram
 
 from threading import Timer, Thread
 from dotenv import load_dotenv
@@ -176,7 +177,8 @@ class Bot:
 
         # application.add_handler(conv_handler)
         
-        updater = Updater(token=token, use_context=True)
+        bot = telegram.Bot(token=token)
+        updater = Updater(bot=bot)
         job_queue = updater.job_queue
         job_queue.run_repeating(Bot.scanAlerts, interval=SCAN_ALERTS_TIME_SECONDS, first=0.0)
         updater.start_polling()
