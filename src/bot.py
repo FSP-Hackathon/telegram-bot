@@ -87,11 +87,11 @@ class Bot:
         for chat in chats:
             logger.debug(f'sendAlert(chat = {chat})')
             logger.debug(f'sendAlert(Bot.context = {Bot.context})')
-            Bot.context.bot.send_message(
+            asyncio.run(Bot.context.bot.send_message(
                 chat_id=chat,
                 text=alert.msg,
                 # parse_mode=parse_mode,
-            )
+            ))
 
     async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
         Bot.context = context
