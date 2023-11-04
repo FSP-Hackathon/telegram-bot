@@ -57,3 +57,7 @@ def alert():
 
 def runApi():
     app.run(host='0.0.0.0', port=1082)
+
+
+if __name__ == '__main__':
+    runApi()
