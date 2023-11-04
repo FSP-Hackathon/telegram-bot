@@ -27,7 +27,7 @@ def __getUsersToNotify(token: str) -> list:
 
     baseUrl = os.getenv(ACCESS_SERVICE_BASE_URL_KEY)
     response = requests.get(
-        f'{baseUrl}/database/users',
+        f'{baseUrl}/api/database/users',
         params={'name': token}
     )
     body = response.json()

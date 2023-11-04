@@ -4,6 +4,10 @@ import threading
 
 from monitoring_bot import MonitoringBot
 
+# TODO
+# 1. Проврека на админа в кажом запросе
+# 2. 
+
 def main() -> None:
     thread = threading.Thread(target = MonitoringBot.run)
     thread.start()
