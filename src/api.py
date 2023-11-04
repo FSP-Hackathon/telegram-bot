@@ -51,7 +51,7 @@ def __parseRequest(request) -> (str, str):
 def alert():
     error_message, token = __parseRequest(request)
     users = __getUsersToNotify(token)
-    loop = asyncio.get_event_loop()
+    loop = asyncio.new_event_loop()
     asyncio.run(__notifyUsers(users, error_message))
     loop.close()
     return ('', 200)
