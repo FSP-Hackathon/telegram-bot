@@ -7,6 +7,7 @@ import asyncio
 from flask import Flask, request, jsonify
 
 from bot import Alert, Bot
+from monitoring_bot import MonitoringBot
 
 app = Flask(__name__)
 
@@ -51,8 +52,7 @@ def __parseRequest(request) -> (str, str):
 def alert():
     error_message, token = __parseRequest(request)
     users = __getUsersToNotify(token)
-    alert = Alert(msg=error_message, users=users)
-    Bot.alertsToSend.append(alert)
+    MonitoringBot.sendMessageToUsers(msg=error_message, users=users)
     return ('', 200)
 
 

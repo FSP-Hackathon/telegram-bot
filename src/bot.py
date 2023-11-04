@@ -144,7 +144,7 @@ class Bot:
 
         if len(Bot.alertsToSend) != 0:
             alert = Bot.alertsToSend.pop()
-            await Bot.sendAlert(alert, context)            
+            await Bot.sendAlert(alert, context)
 
     def runBot() -> None:
         token = Bot.__getToken()

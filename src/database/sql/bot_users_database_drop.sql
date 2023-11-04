@@ -1,1 +1,1 @@
-DROP TABLE bot_users
+DROP TABLE IF EXISTS bot_users
