@@ -88,7 +88,7 @@ class Bot:
             logger.debug(f'sendAlert(chat = {chat})')
             logger.debug(f'sendAlert(Bot.context = {Bot.context})')
 
-            loop = asyncio.new_event_loop()
+            loop = asyncio.get_event_loop()
             asyncio.set_event_loop(loop)
             asyncio.run(Bot.context.bot.send_message(
                 chat_id=chat,
