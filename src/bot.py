@@ -84,7 +84,7 @@ class Bot:
         )
         error_text = "```md\n" + "".join(exceptions) + "\n```"
         
-        Bot.notifyUsers(
+        await Bot.notifyUsers(
             users=Bot.__getAdmins(), 
             message=Strings.translate('internal_error') + error_text, 
             parse_mode=ParseMode.MARKDOWN,
