@@ -1,0 +1,1 @@
+INSERT INTO bot_users (username, chat_id) VALUES (%s, %s) ON CONFLICT (username) DO UPDATE SET chat_id = EXCLUDED.chat_id
