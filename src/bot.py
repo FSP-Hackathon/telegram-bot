@@ -140,7 +140,7 @@ class Bot:
             alert = Bot.alertsToSend.pop()
             await Bot.sendAlert(alert)
         
-        asyncio.sleep(SCAN_ALERTS_TIME_SECONDS)
+        await asyncio.sleep(SCAN_ALERTS_TIME_SECONDS)
         await Bot.scanAlerts()
             
 
