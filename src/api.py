@@ -52,7 +52,8 @@ def alert():
     error_message, token = __parseRequest(request)
     users = __getUsersToNotify(token)
     loop = asyncio.new_event_loop()
-    asyncio.run(__notifyUsers(users, error_message))
+    asyncio.set_event_loop(loop)
+    loop.run_until_complete(__notifyUsers(users, error_message))
     loop.close()
     return ('', 200)
 
