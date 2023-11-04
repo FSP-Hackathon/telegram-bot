@@ -1,15 +1,10 @@
 from api import runApi
 from bot import Bot
-from multiprocessing import Process
+import asyncio
 
 def main() -> None:
-    api = Process(target=runApi())
-    bot = Process(target=Bot.runBot())
-    api.start()
-    bot.start()    
-
-    api.join()
-    bot.join()
+    asyncio.run(runApi())
+    asyncio.run(Bot.runBot())
 
 if __name__ == '__main__':
     main()

@@ -116,7 +116,7 @@ class Bot:
         )
 
 
-    def runBot() -> None:
+    async def runBot() -> None:
         token = Bot.__getToken()
 
         BotUsersDatabase.init(drop=False)
