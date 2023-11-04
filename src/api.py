@@ -17,8 +17,8 @@ logging.getLogger(__name__).setLevel(logging.DEBUG)
 ACCESS_SERVICE_BASE_URL_KEY = 'ACCESS_SERVICE_BASE_URL'
 
 
-def __notifyUsers(users: list, message: str):
-    Bot.notifyUsers(users=users, message=message)
+async def __notifyUsers(users: list, message: str):
+    await Bot.notifyUsers(users=users, message=message)
 
 
 def __getUsersToNotify(token: str) -> list:
@@ -51,7 +51,9 @@ def __parseRequest(request) -> (str, str):
 def alert():
     error_message, token = __parseRequest(request)
     users = __getUsersToNotify(token)
-    __notifyUsers(users, error_message)
+    loop = asyncio.get_event_loop()
+    asyncio.run(__notifyUsers(users, error_message))
+    loop.close()
     return ('', 200)
 
 
