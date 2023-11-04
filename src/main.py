@@ -4,7 +4,7 @@ import asyncio
 import threading
 
 def main() -> None:
-    thread = threading.Thread(target = Bot.runBot())
+    thread = threading.Thread(target = Bot.runBot)
     thread.start()
     runApi()
 
