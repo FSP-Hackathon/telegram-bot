@@ -38,6 +38,11 @@ class MonitoringBot:
     def sendMessageToUser(msg: str, user: str) -> None:
         logger.debug(f'sendMessageToUser(user = {user}, msg = {msg})')
         chat = MonitoringBot.__getChatOfUser(user)
+
+        if chat == None:
+            logger.warning(f'chat_id of user {user} is None!')
+            return
+        
         MonitoringBot.bot.send_message(chat_id=chat, text=msg)
 
     def sendMessageToUsers(msg: str, users: list[str]) -> None:
