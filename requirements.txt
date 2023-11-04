@@ -2,3 +2,4 @@ python-telegram-bot
 logging
 psycopg2
 python-dotenv
+flask
