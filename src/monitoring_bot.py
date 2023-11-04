@@ -88,7 +88,7 @@ class WhitelistFilter(telebot.custom_filters.SimpleCustomFilter):
 
     @staticmethod
     def check(message: telebot.types.Message) -> bool:
-        return WhitelistFilter.checkByUsername(message)
+        return WhitelistFilter.checkByUsername(message.from_user.username)
 
 
 if __name__ == '__main__':
