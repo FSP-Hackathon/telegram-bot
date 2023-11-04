@@ -91,7 +91,7 @@ class BotUsersDatabase:
             'SELECT chat_id FROM bot_users WHERE username = %s', (username,),
         )
 
-        result = BotUsersDatabase.cursor.fetchone()
+        result = cursor.fetchone()
 
         logger.debug(f'getChatIdByUsername(result = {result})')
 
