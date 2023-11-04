@@ -173,6 +173,8 @@ class Bot:
 
         # application.add_handler(conv_handler)
 
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
         application.run_polling(allowed_updates=Update.ALL_TYPES)
 
 
