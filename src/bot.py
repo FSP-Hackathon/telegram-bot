@@ -1,6 +1,7 @@
 import logging
 import os
 import traceback
+import asyncio
 
 from dotenv import load_dotenv
 from telegram import Update
@@ -27,12 +28,12 @@ admins = ['OwlCodR']
 
 load_dotenv()
 
+
 class Bot:
     context: ContextTypes.DEFAULT_TYPE
 
     def __getToken() -> str:
         return os.getenv(BOT_TOKEN_KEY)
-
 
     def __getChatIdsByUsernames(users: list) -> list:
         logger.debug(f'__getChatsOfUsers(users = {users})')
@@ -46,19 +47,16 @@ class Bot:
 
         return chats
 
-
     def __getAdmins() -> str:
         return Bot.__getChatIdsByUsernames(admins)
-
 
     def isUserWhitelisted(username: int) -> bool:
         # TODO: Send request and check if user whitelisted
         return True
 
-
     async def notifyUsers(
-        users: list, 
-        message: str, 
+        users: list,
+        message: str,
         parse_mode=None,
     ):
         logger.debug(f'notifyUsers(users = {users})')
@@ -68,14 +66,14 @@ class Bot:
         for chat in chats:
             logger.debug(f'notifyUsers(chat = {chat})')
             await Bot.context.bot.send_message(
-                chat_id=chat, 
+                chat_id=chat,
                 text=message,
             )
 
-
     async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
         Bot.context = context
-        logger.error("Exception while handling an update:", exc_info=context.error)
+        logger.error("Exception while handling an update:",
+                     exc_info=context.error)
 
         exceptions = traceback.format_exception(
             None,
@@ -83,13 +81,12 @@ class Bot:
             context.error.__traceback__
         )
         error_text = "```md\n" + "".join(exceptions) + "\n```"
-        
+
         await Bot.notifyUsers(
-            users=Bot.__getAdmins(), 
-            message=Strings.translate('internal_error') + error_text, 
+            users=Bot.__getAdmins(),
+            message=Strings.translate('internal_error') + error_text,
             parse_mode=ParseMode.MARKDOWN,
         )
-
 
     async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         Bot.context = context
@@ -115,8 +112,7 @@ class Bot:
             Strings.translate('welcome'),
         )
 
-
-    def runBot() -> None:
+    def start():
         token = Bot.__getToken()
 
         BotUsersDatabase.init(drop=False)
@@ -144,6 +140,11 @@ class Bot:
         # application.add_handler(conv_handler)
 
         application.run_polling(allowed_updates=Update.ALL_TYPES)
+
+    def runBot(loop) -> None:
+        asyncio.set_event_loop(loop)
+        loop.run_until_complete(Bot.start())
+
 
 if __name__ == '__main__':
     Bot.runBot()
