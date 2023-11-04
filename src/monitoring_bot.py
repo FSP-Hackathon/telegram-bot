@@ -25,7 +25,7 @@ class MonitoringBot:
 
     def run() -> None:
         logger.debug(f'run()')
-        BotUsersDatabase.init(drop=True)
+        BotUsersDatabase.init(drop=False)
         MonitoringBot.bot.add_custom_filter(WhitelistFilter())
         MonitoringBot.bot.infinity_polling()
 
