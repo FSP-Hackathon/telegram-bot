@@ -6,6 +6,8 @@ import asyncio
 from threading import Timer, Thread
 from dotenv import load_dotenv
 from telegram import Update
+from telegram.ext import Updater
+
 
 from constants.strings import Strings
 from telegram.constants import ParseMode
@@ -78,7 +80,7 @@ class Bot:
                 parse_mode=parse_mode,
             )
 
-    def sendAlert(alert: Alert):
+    async def sendAlert(alert: Alert, context):
         logger.debug(f'sendAlert(alert = {alert})')
 
         chats = Bot.__getChatIdsByUsernames(alert.users)
@@ -88,14 +90,11 @@ class Bot:
             logger.debug(f'sendAlert(chat = {chat})')
             logger.debug(f'sendAlert(Bot.context = {Bot.context})')
 
-            loop = asyncio.get_event_loop()
-            asyncio.set_event_loop(loop)
-            asyncio.run(Bot.context.bot.send_message(
+            await context.bot.send_message(
                 chat_id=chat,
                 text=alert.msg,
                 # parse_mode=parse_mode,
-            ))
-            loop.close()
+            )
 
     async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
         Bot.context = context
@@ -138,25 +137,18 @@ class Bot:
             Strings.translate('welcome'),
         )
 
-    def scanAlerts():
+    async def scanAlerts(context):
         logger.debug(f'scanAlerts(SCAN_ALERTS_TIME_SECONDS={SCAN_ALERTS_TIME_SECONDS})')
         logger.debug(f'scanAlerts(alertsToSend={Bot.alertsToSend})')
 
         if len(Bot.alertsToSend) != 0:
             alert = Bot.alertsToSend.pop()
-            Bot.sendAlert(alert)
-        
-        t = Timer(SCAN_ALERTS_TIME_SECONDS, Bot.scanAlerts)
-        t.start()
-            
+            await Bot.sendAlert(alert, context)            
 
     def runBot() -> None:
         token = Bot.__getToken()
 
         BotUsersDatabase.init(drop=False)
-
-        t = Timer(SCAN_ALERTS_TIME_SECONDS, Bot.scanAlerts)
-        t.start()
 
         # loop = asyncio.new_event_loop()
         # asyncio.set_event_loop(loop)
@@ -183,7 +175,12 @@ class Bot:
         application.add_handler(CommandHandler("start", Bot.start))
 
         # application.add_handler(conv_handler)
-
+        
+        updater = Updater(token=token, use_context=True)
+        job_queue = updater.job_queue
+        job_queue.run_repeating(Bot.scanAlerts, interval=SCAN_ALERTS_TIME_SECONDS, first=0.0)
+        updater.start_polling()
+    
         application.run_polling(allowed_updates=Update.ALL_TYPES)
 
 
