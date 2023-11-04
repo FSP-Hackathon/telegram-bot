@@ -146,7 +146,7 @@ class Bot:
 
         BotUsersDatabase.init(drop=False)
 
-        Bot.scanAlerts()
+        asyncio.run(Bot.scanAlerts())
 
         application = Application.builder().token(token).concurrent_updates(True).build()
 
