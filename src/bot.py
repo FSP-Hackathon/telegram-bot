@@ -115,7 +115,7 @@ class Bot:
 
         BotUsersDatabase.init(drop=False)
 
-        application = Application.builder().token(token).build()
+        application = Application.builder().token(token).concurrent_updates(True).build()
 
         # conv_handler = ConversationHandler(
         #     entry_points=[CommandHandler("start", start)],
