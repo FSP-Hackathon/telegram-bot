@@ -19,6 +19,7 @@ class Strings:
             'shortcut_terminate': '☠️ Прервать соединения',
             'shortcut_shutdown': '⛔ Выключить',
             'shortcut_restore': '♻️ Восстановить',
+            'empty': '<Пусто>',
         }
         # en = {}
         # us = {}

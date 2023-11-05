@@ -242,7 +242,7 @@ class MonitoringBot:
         info = BotUsersDatabase.getAll()
 
         if info == None:
-            info = '<Пусто>'
+            info = Strings.translate('empty')
 
         MonitoringBot.bot.send_message(message.chat.id, str(info))
 
@@ -266,6 +266,8 @@ class MonitoringBot:
             action = 'terminate'
         elif text == Strings.translate('shortcut_restore'):
             action = 'restore'
+        elif text == Strings.translate('shortcut_shutdown'):
+            action = 'shutdown'
 
         # TODO: Send action to backend
 
