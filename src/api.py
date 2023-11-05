@@ -31,6 +31,7 @@ def __getUsersToNotify(token: str) -> list:
         params={'name': token}
     )
 
+    logger.debug(f'__getUsersToNotify(response.content = {response.content})')
     if response.content == None:
         return []
 
