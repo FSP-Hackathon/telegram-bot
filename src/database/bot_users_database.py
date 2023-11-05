@@ -85,16 +85,30 @@ class BotUsersDatabase:
             f'setSelectedDatabase(username = {username}, selectedDatabase = {selectedDatabase})'
         )
         BotUsersDatabase.__checkInit()
-        path = os.path.dirname(os.path.realpath(__file__))
-
-        logger.debug(f'setSelectedDatabase(path = {path}')
 
         sql = f'UPDATE bot_users SET selected_db = %s WHERE username = %s'
-
         logger.debug(f'setSelectedDatabase(sql = {sql}')
 
         BotUsersDatabase.__getCursor().execute(sql, (username, selectedDatabase))
         BotUsersDatabase.connection.commit()
+
+    def getSelectedDatabase(username: str):
+        logger.debug(f'getSelectedDatabase(username = {username})')
+        BotUsersDatabase.__checkInit()
+
+        sql = f'SELECT selected_db FROM bot_users WHERE username = %s'
+        logger.debug(f'getSelectedDatabase(sql = {sql}')
+
+        cursor = BotUsersDatabase.__getCursor()
+        cursor.execute(sql, (username,))
+        result = cursor.fetchone()
+
+        logger.debug(f'getSelectedDatabase(result = {result})')
+        
+        if result == None:
+            return None
+        
+        return result[0]
 
     def getChatIdByUsername(username: str):
         BotUsersDatabase.__checkInit()

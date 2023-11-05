@@ -115,6 +115,20 @@ class MonitoringBot:
 
         MonitoringBot.bot.register_next_step_handler(answer, MonitoringBot.selectDatabase)
 
+    @bot.message_handler(commands=['current'])
+    def currentDatabase(message):
+        username = message.from_user.username
+        logger.debug(f'currentDatabase(username={username})')
+
+        if not MonitoringBot.__checkUserWhitelisted(message, username):
+            return
+
+        current = BotUsersDatabase.getSelectedDatabase(username)
+        answer = MonitoringBot.bot.send_message(
+            message.chat.id, 
+            Strings.translate('current_database') + current + '"', 
+        )
+
     def selectDatabase(message):
         username = message.from_user.username
         logger.debug(f'selectDatabase(username={username})')
