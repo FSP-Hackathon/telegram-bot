@@ -149,7 +149,8 @@ class MonitoringBot:
             web_app=website
         )
         menu_button = types.KeyboardButton(text=Strings.translate('menu_main'))
-        markup.add(metrcis_button, menu_button)
+        shortcuts_button = types.KeyboardButton(text=Strings.translate('menu_shortcuts'))
+        markup.add(metrcis_button, shortcuts_button, menu_button)
 
         BotUsersDatabase.setSelectedDatabase(username, message.text)
 
