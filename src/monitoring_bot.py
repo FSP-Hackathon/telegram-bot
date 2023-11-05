@@ -115,7 +115,7 @@ class MonitoringBot:
         )
 
         MonitoringBot.bot.register_next_step_handler(
-            answer, 
+            answer,
             MonitoringBot.selectDatabase,
         )
 
@@ -159,9 +159,10 @@ class MonitoringBot:
             return
 
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        website = types.WebAppInfo('http://84.201.153.19/')
+        website = types.WebAppInfo(
+            'https://6546f5ab30cd2a7356448aa5--shimmering-babka-0083c0.netlify.app/')
         button = types.KeyboardButton(
-            text=Strings.translate('check_metrics'), 
+            text=Strings.translate('check_metrics'),
             web_app=website
         )
         markup.add(button)
