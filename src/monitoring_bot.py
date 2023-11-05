@@ -154,7 +154,7 @@ class MonitoringBot:
         MonitoringBot.bot.send_message(
             message.chat.id,
             Strings.translate('selected_shortcut'),
-            reply_markup=databaseActionsKeyboard(),
+            reply_markup=databaseActionsKeyboard(Strings.WEB_VIEW_URL),
         )
 
     # @bot.message_handler(commands=['start'], is_whitelisted=True)
