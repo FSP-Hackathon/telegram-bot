@@ -45,28 +45,46 @@ class MonitoringBot:
             return
 
         MonitoringBot.bot.send_message(
-            chat_id=chat, 
-            text=msg, 
-            parse_mode='MarkdownV2', 
+            chat_id=chat,
+            text=msg,
+            parse_mode='MarkdownV2',
             reply_markup=reply_markup,
         )
 
     def sendMessageToUsers(msg: str, users: list[str], reply_markup) -> None:
         logger.debug(f'sendMessageToUsers(msg = {msg}, users = {users})')
         for user in users:
-            MonitoringBot.sendMessageToUser(user=user, msg=msg, reply_markup=reply_markup)
+            MonitoringBot.sendMessageToUser(
+                user=user, msg=msg, reply_markup=reply_markup)
 
     def sendErrorMessageToUsers(msg: str, users: list[str], db_name: str) -> None:
         logger.debug(f'sendErrorMessageToUsers(msg = {msg}, users = {users})')
 
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
 
-        shortcut_restart = types.KeyboardButton(text=Strings.translate('shortcut_restart'))
-        shortcut_backup = types.KeyboardButton(text=Strings.translate('shortcut_backup'))
-        shortcut_terminate = types.KeyboardButton(text=Strings.translate('shortcut_terminate'))
-        shortcut_restore = types.KeyboardButton(text=Strings.translate('shortcut_restore'))
+        shortcut_restart = types.KeyboardButton(
+            text=Strings.translate('shortcut_restart'),
+        )
+        shortcut_backup = types.KeyboardButton(
+            text=Strings.translate('shortcut_backup'),
+        )
+        shortcut_terminate = types.KeyboardButton(
+            text=Strings.translate('shortcut_terminate'),
+        )
+        shortcut_restore = types.KeyboardButton(
+            text=Strings.translate('shortcut_restore'),
+        )
+        shortcut_shutdown = types.KeyboardButton(
+            text=Strings.translate('shortcut_shutdown'),
+        )
 
-        markup.add(shortcut_restart, shortcut_restore, shortcut_backup, shortcut_terminate)
+        markup.add(
+            shortcut_restart,
+            shortcut_restore,
+            shortcut_backup,
+            shortcut_terminate,
+            shortcut_shutdown,
+        )
 
         answer = MonitoringBot.sendMessageToUsers(
             msg=Strings.translate('internal_error') +
