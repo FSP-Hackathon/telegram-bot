@@ -59,7 +59,7 @@ class MonitoringBot:
     def sendErrorMessageToUsers(msg: str, users: list[str], db_name: str) -> None:
         logger.debug(f'sendErrorMessageToUsers(msg = {msg}, users = {users})')
 
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
 
         shortcut_restart = types.KeyboardButton(text=Strings.translate('shortcut_restart'))
         shortcut_backup = types.KeyboardButton(text=Strings.translate('shortcut_backup'))
