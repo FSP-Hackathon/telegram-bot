@@ -85,6 +85,32 @@ class MonitoringBot:
         logger.debug(f'checkByUsername(response={response})')
 
         return response.json()
+    
+    def selectDatabase(message):
+        username = message.from_user.username
+        logger.debug(f'selectDatabase(username={username})')
+
+        if not MonitoringBot.__checkUserWhitelisted(message, username):
+            return
+
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
+        website = types.WebAppInfo(
+            'https://6546f5ab30cd2a7356448aa5--shimmering-babka-0083c0.netlify.app/',
+        )
+        metrcis_button = types.KeyboardButton(
+            text=Strings.translate('check_metrics'),
+            web_app=website
+        )
+        menu_button = types.KeyboardButton(text=Strings.translate('menu_main'))
+        markup.add(metrcis_button, menu_button)
+
+        BotUsersDatabase.setSelectedDatabase(username, message.text)
+
+        MonitoringBot.bot.send_message(
+            message.chat.id,
+            Strings.translate('selected_database') + message.text + '"',
+            reply_markup=markup,
+        )
 
     # @bot.message_handler(commands=['start'], is_whitelisted=True)
     @bot.message_handler(commands=['start'])
@@ -114,21 +140,6 @@ class MonitoringBot:
             text = Strings.translate('not_whitelisted')
 
         MonitoringBot.bot.reply_to(message, text, reply_markup=markup)
-
-    @bot.message_handler(content_types=['text'])
-    def mainMenuHandler(message):
-        text = message.text
-        username = message.from_user.username
-
-        if text == Strings.translate('menu_databases'):
-            MonitoringBot.databases(message)
-        elif text == Strings.translate('menu_current'):
-            MonitoringBot.currentDatabase(message)
-        elif text == Strings.translate('menu_main'):
-            MonitoringBot.start(message)
-
-        if text == Strings.translate('menu_debug') and username in DEVS:
-            MonitoringBot.debug(message)
 
     @bot.message_handler(commands=['databases'])
     def databases(message):
@@ -188,32 +199,20 @@ class MonitoringBot:
 
         MonitoringBot.bot.send_message(message.chat.id, str(info))
 
-    def selectDatabase(message):
+    @bot.message_handler(content_types=['text'])
+    def mainMenuHandler(message):
+        text = message.text
         username = message.from_user.username
-        logger.debug(f'selectDatabase(username={username})')
 
-        if not MonitoringBot.__checkUserWhitelisted(message, username):
-            return
+        if text == Strings.translate('menu_databases'):
+            MonitoringBot.databases(message)
+        elif text == Strings.translate('menu_current'):
+            MonitoringBot.currentDatabase(message)
+        elif text == Strings.translate('menu_main'):
+            MonitoringBot.start(message)
 
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-        website = types.WebAppInfo(
-            'https://6546f5ab30cd2a7356448aa5--shimmering-babka-0083c0.netlify.app/',
-        )
-        metrcis_button = types.KeyboardButton(
-            text=Strings.translate('check_metrics'),
-            web_app=website
-        )
-        menu_button = types.KeyboardButton(text=Strings.translate('menu_main'))
-        markup.add(metrcis_button, menu_button)
-
-        BotUsersDatabase.setSelectedDatabase(username, message.text)
-
-        MonitoringBot.bot.send_message(
-            message.chat.id,
-            Strings.translate('selected_database') + message.text + '"',
-            reply_markup=markup,
-        )
-
+        if text == Strings.translate('menu_debug') and username in DEVS:
+            MonitoringBot.debug(message)
 
 if __name__ == '__main__':
     MonitoringBot.run()
