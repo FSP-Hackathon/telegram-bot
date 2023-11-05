@@ -195,7 +195,7 @@ class MonitoringBot:
         if not MonitoringBot.__checkUserWhitelisted(message, username):
             return
 
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
         website = types.WebAppInfo(
             'https://6546f5ab30cd2a7356448aa5--shimmering-babka-0083c0.netlify.app/',
         )
