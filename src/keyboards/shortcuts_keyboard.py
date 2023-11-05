@@ -2,6 +2,7 @@ from telebot import types
 
 from constants.strings import Strings
 
+
 def shortcutsKeyboard():
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
 
