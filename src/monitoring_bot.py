@@ -283,6 +283,8 @@ class MonitoringBot:
             MonitoringBot.currentDatabase(message)
         elif text == Strings.translate('menu_main'):
             MonitoringBot.start(message)
+        elif text == Strings.translate('menu_shortcuts'):
+            MonitoringBot.actionsHandler(message)
 
         if text == Strings.translate('menu_debug') and username in DEVS:
             MonitoringBot.debug(message)
