@@ -9,10 +9,11 @@ from monitoring_bot import MonitoringBot
 # 1. Проврека на админа в каждом запросе +
 # 2. Алертинг +
 # 3. Интеграция WebView +
-# 4. Шорткаты +
+# 4. Шорткаты
 # 5. Базовая навигация с кнопками +
-# 6. Получение списка БД с сервера 
+# 6. Получение списка доступных БД с сервера +
 # 7. Менюшка на старте +
+# 8. Рекомендации
 
 def main(drop=False) -> None:
     thread = threading.Thread(target = MonitoringBot.run, args=(drop,))

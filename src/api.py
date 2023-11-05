@@ -30,6 +30,10 @@ def __getUsersToNotify(token: str) -> list:
         f'{baseUrl}/api/database/users',
         params={'name': token}
     )
+
+    if response.content == None:
+        return []
+
     body = response.json()
 
     logger.debug(f'__getUsersToNotify(body = {body})')
