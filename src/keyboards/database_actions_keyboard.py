@@ -4,7 +4,7 @@ from constants.strings import Strings
 
 
 def databaseActionsKeyboard(url: str):
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     website = types.WebAppInfo(url)
     metrcis_button = types.KeyboardButton(
         text=Strings.translate('check_metrics'),
