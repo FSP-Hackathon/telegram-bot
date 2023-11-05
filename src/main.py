@@ -15,13 +15,15 @@ from monitoring_bot import MonitoringBot
 # 8. Рекомендации
 # 9. Docker
 
+
 def main(drop=False) -> None:
-    thread = threading.Thread(target = MonitoringBot.run, args=(drop,))
+    thread = threading.Thread(target=MonitoringBot.run, args=(drop,))
     thread.start()
-    
+
     runApi()
 
     thread.join()
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
