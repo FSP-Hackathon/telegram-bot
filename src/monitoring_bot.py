@@ -115,7 +115,9 @@ class MonitoringBot:
         )
 
         MonitoringBot.bot.register_next_step_handler(
-            answer, MonitoringBot.selectDatabase)
+            answer, 
+            MonitoringBot.selectDatabase,
+        )
 
     @bot.message_handler(commands=['current'])
     def currentDatabase(message):
@@ -157,8 +159,11 @@ class MonitoringBot:
             return
 
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        website = types.WebAppInfo("https://telegram.mihailgok.ru")
-        button = types.KeyboardButton(text=Strings.translate('check_metrics'), web_app=website)
+        website = types.WebAppInfo('http://84.201.153.19/')
+        button = types.KeyboardButton(
+            text=Strings.translate('check_metrics'), 
+            web_app=website
+        )
         markup.add(button)
 
         BotUsersDatabase.setSelectedDatabase(username, message.text)
