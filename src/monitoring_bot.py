@@ -169,7 +169,6 @@ class MonitoringBot:
             reply_markup=databaseActionsKeyboard(Strings.WEB_VIEW_URL),
         )
 
-    # @bot.message_handler(commands=['start'], is_whitelisted=True)
     @bot.message_handler(commands=['start'])
     def onStart(message):
         username = message.from_user.username
