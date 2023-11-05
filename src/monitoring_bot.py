@@ -39,7 +39,7 @@ class MonitoringBot:
         logger.debug(f'__getChatOfUser(chat = {chat})')
         return chat
 
-    def __sendMessageToUser(msg: str, user: str, reply_markup) -> None:
+    def __sendMessageToUser(msg: str, user: str) -> None:
         logger.debug(f'sendMessageToUser(user = {user}, msg = {msg})')
         chat = MonitoringBot.__getChatOfUser(user)
 
@@ -51,16 +51,14 @@ class MonitoringBot:
             chat_id=chat,
             text=msg,
             parse_mode='MarkdownV2',
-            reply_markup=reply_markup,
         )
 
-    def __sendMessageToUsers(msg: str, users: list[str], reply_markup) -> None:
+    def __sendMessageToUsers(msg: str, users: list[str]) -> None:
         logger.debug(f'sendMessageToUsers(msg = {msg}, users = {users})')
         for user in users:
             MonitoringBot.__sendMessageToUser(
                 user=user,
                 msg=msg,
-                reply_markup=reply_markup,
             )
 
     def __checkUserWhitelisted(message, username: str) -> bool:
