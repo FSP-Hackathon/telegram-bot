@@ -32,7 +32,7 @@ def __getUsersToNotify(token: str) -> list:
     )
 
     logger.debug(f'__getUsersToNotify(response.content = {response.content})')
-    if response.content == None:
+    if len(str(response.content)) == 0:
         return []
 
     body = response.json()
