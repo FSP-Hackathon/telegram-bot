@@ -4,7 +4,7 @@ from constants.strings import Strings
 
 
 def shortcutsKeyboard():
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
 
     shortcut_restart = types.KeyboardButton(
         text=Strings.translate('shortcut_restart'),
