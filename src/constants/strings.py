@@ -14,6 +14,10 @@ class Strings:
             'menu_current': '📂 Выбранная БД',
             'menu_debug': '⚙️ Для разработчиков',
             'menu_main': '🔍 В главное меню',
+            'shortcut_restart': '🔄 Перезагрузить',
+            'shortcut_backup': '📥 Создать бекап',
+            'shortcut_terminate': '☠️ Прервать соединения',
+            'shortcut_restore': '♻️ Восстановить БД',
         }
         # en = {}
         # us = {}
@@ -23,5 +27,6 @@ class Strings:
         return Strings.translations[Strings.current][key]
 
 
-    CHECK_USER_PATH = 'api/user/check'
-    DATABASES_PATH = 'api/user/databases'
+    CHECK_USER_PATH = 'api/user/check' # Находится ли юзер в вайтлисте
+    DATABASES_PATH = 'api/user/databases' # Какие БД доступны юзеру
+    DATABASE_USERS_PATH = 'api/database/users' # Какие юзеры имеют доступ к БД

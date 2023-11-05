@@ -60,18 +60,24 @@ class MonitoringBot:
         logger.debug(f'sendErrorMessageToUsers(msg = {msg}, users = {users})')
 
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        # metrcis_button = types.KeyboardButton(
-        #     text=Strings.translate('check_metrics'),
-        #     web_app=website,
-        # )
-        # menu_button = types.KeyboardButton(text=Strings.translate('menu_main'))
-        # markup.add(metrcis_button, menu_button)
 
-        MonitoringBot.sendMessageToUsers(
+        shortcut_restart = types.KeyboardButton(text=Strings.translate('shortcut_restart'))
+        shortcut_backup = types.KeyboardButton(text=Strings.translate('shortcut_backup'))
+        shortcut_terminate = types.KeyboardButton(text=Strings.translate('shortcut_terminate'))
+        shortcut_restore = types.KeyboardButton(text=Strings.translate('shortcut_restore'))
+
+        markup.add(shortcut_restart, shortcut_restore, shortcut_backup, shortcut_terminate)
+
+        answer = MonitoringBot.sendMessageToUsers(
             msg=Strings.translate('internal_error') +
             f'"{db_name}"\n\n' + '```sh\n' + msg + "\n```",
             users=users,
             reply_markup=markup,
+        )
+
+        MonitoringBot.bot.register_next_step_handler(
+            answer,
+            MonitoringBot.actionsHandler,
         )
 
     def __checkUserWhitelisted(message, username: str) -> bool:
@@ -221,6 +227,29 @@ class MonitoringBot:
             info = '<Пусто>'
 
         MonitoringBot.bot.send_message(message.chat.id, str(info))
+
+    @bot.message_handler(content_types=['actions'])
+    def actionsHandler(message):
+        text = message.text
+        username = message.from_user.username
+
+        selected = BotUsersDatabase.getSelectedDatabase(username)
+
+        if selected == None:
+            text = Strings.translate('not_selected')
+            return
+
+        action = None
+        if text == Strings.translate('shortcut_restart'):
+            action = 'restart'
+        elif text == Strings.translate('shortcut_backup'):
+            action = 'backup'
+        elif text == Strings.translate('shortcut_terminate'):
+            action = 'terminate'
+        elif text == Strings.translate('shortcut_restore'):
+            action = 'restore'
+
+        # TODO: Send action to backend
 
     @bot.message_handler(content_types=['text'])
     def mainMenuHandler(message):

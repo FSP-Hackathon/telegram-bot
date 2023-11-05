@@ -7,6 +7,7 @@ import asyncio
 from flask import Flask, request, jsonify
 
 from bot import Alert, Bot
+from constants.strings import Strings
 from monitoring_bot import MonitoringBot
 
 app = Flask(__name__)
@@ -27,7 +28,7 @@ def __getUsersToNotify(token: str) -> list:
 
     baseUrl = os.getenv(ACCESS_SERVICE_BASE_URL_KEY)
     response = requests.get(
-        f'{baseUrl}/api/database/users',
+        f'{baseUrl}/{Strings.DATABASE_USERS_PATH}',
         params={'name': token}
     )
 
