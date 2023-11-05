@@ -42,17 +42,17 @@ class MonitoringBot:
             logger.warning(f'chat_id of user {user} is None!')
             return
 
-        MonitoringBot.bot.send_message(chat_id=chat, text=msg)
+        MonitoringBot.bot.send_message(chat_id=chat, text=msg, parse_mode='MarkdownV2')
 
     def sendMessageToUsers(msg: str, users: list[str]) -> None:
         logger.debug(f'sendMessageToUsers(msg = {msg}, users = {users})')
         for user in users:
             MonitoringBot.sendMessageToUser(user=user, msg=msg)
 
-    def sendErrorMessageToUsers(msg: str, users: list[str]) -> None:
+    def sendErrorMessageToUsers(msg: str, users: list[str], db_name: str) -> None:
         logger.debug(f'sendErrorMessageToUsers(msg = {msg}, users = {users})')
         MonitoringBot.sendMessageToUsers(
-            msg=Strings.translate('internal_error') + '```sh\n' + msg + "\n```", 
+            msg=Strings.translate('internal_error') + f'"{db_name}"\n\n' + '```sh\n' + msg + "\n```", 
             users=users
         )
 
