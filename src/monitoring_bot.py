@@ -13,7 +13,7 @@ logging.getLogger(__name__).setLevel(logging.DEBUG)
 
 ACCESS_SERVICE_BASE_URL_KEY = 'ACCESS_SERVICE_BASE_URL'
 
-DEVS = ['OwlCodR']
+DEVS = ['OwlCodR', 'zair_t', 'mthgradr', 'yulia_sharkova', 'danilkandakov']
 
 
 class MonitoringBot:
@@ -64,12 +64,23 @@ class MonitoringBot:
         isWhitelisted = MonitoringBot.isUserWhitelisted(username)
         if not isWhitelisted:
             MonitoringBot.bot.reply_to(
-                message, Strings.translate('not_whitelisted'))
+                message, Strings.translate('not_whitelisted'),
+            )
         return isWhitelisted
 
     def __getDatabasesByUser(username: str) -> list[str]:
-        # TODO: Получение спискаБД с сервера
-        return ['БД1', 'База данных полльзователей', 'БД Маши! Не трогать!']
+        logger.debug(f'__getDatabasesByUser(username={username})')
+
+        base = os.getenv(ACCESS_SERVICE_BASE_URL_KEY)
+        path = Strings.DATABASES_PATH
+
+        url = f'{base}/{path}'
+        params = {'nickname': username}
+
+        logger.debug(f'__getDatabasesByUser(url={url}, params={params})')
+
+        response = requests.get(url, params=params)
+        return response.json()['databases']
 
     def isUserWhitelisted(username: str):
         logger.debug(f'checkByUsername(username={username})')
@@ -85,7 +96,7 @@ class MonitoringBot:
         logger.debug(f'checkByUsername(response={response})')
 
         return response.json()
-    
+
     def selectDatabase(message):
         username = message.from_user.username
         logger.debug(f'selectDatabase(username={username})')
@@ -213,6 +224,7 @@ class MonitoringBot:
 
         if text == Strings.translate('menu_debug') and username in DEVS:
             MonitoringBot.debug(message)
+
 
 if __name__ == '__main__':
     MonitoringBot.run()

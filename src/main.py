@@ -11,8 +11,8 @@ from monitoring_bot import MonitoringBot
 # 3. Интеграция WebView +
 # 4. Шорткаты +
 # 5. Базовая навигация с кнопками +
-# 6. Получение списка БД с сервера
-# 7. Менюшка на старте
+# 6. Получение списка БД с сервера 
+# 7. Менюшка на старте +
 
 def main(drop=False) -> None:
     thread = threading.Thread(target = MonitoringBot.run, args=(drop,))

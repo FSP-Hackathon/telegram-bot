@@ -24,3 +24,4 @@ class Strings:
 
 
     CHECK_USER_PATH = 'api/user/check'
+    DATABASES_PATH = 'api/user/databases'
