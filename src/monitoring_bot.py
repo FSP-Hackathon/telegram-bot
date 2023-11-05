@@ -154,7 +154,7 @@ class MonitoringBot:
     @bot.message_handler(commands=['databases'])
     def onDatabases(message):
         username = message.from_user.username
-        logger.debug(f'databases(username={username})')
+        logger.debug(f'onDatabases(username={username})')
 
         if not MonitoringBot.__checkUserWhitelisted(message, username):
             return
@@ -175,7 +175,7 @@ class MonitoringBot:
     @bot.message_handler(commands=['current'])
     def onCurrentDatabase(message):
         username = message.from_user.username
-        logger.debug(f'currentDatabase(username={username})')
+        logger.debug(f'onCurrentDatabase(username={username})')
 
         if not MonitoringBot.__checkUserWhitelisted(message, username):
             return
@@ -193,7 +193,7 @@ class MonitoringBot:
     @bot.message_handler(commands=['debug'])
     def onDebug(message):
         username = message.from_user.username
-        logger.debug(f'debug(username={username})')
+        logger.debug(f'onDebug(username={username})')
 
         MonitoringBot.__checkUserWhitelisted(message, username)
 
@@ -207,6 +207,7 @@ class MonitoringBot:
     @bot.message_handler(commands=['actions'])
     def onShortcuts(message):
         username = message.from_user.username
+        logger.debug(f'onShortcuts(username={username})')
 
         if not MonitoringBot.__checkUserWhitelisted(message, username):
             return
@@ -231,6 +232,7 @@ class MonitoringBot:
     def shortcutsHandler(message):
         text = message.text
         username = message.from_user.username
+        logger.debug(f'shortcutsHandler(username={username})')
 
         if not MonitoringBot.__checkUserWhitelisted(message, username):
             return
@@ -253,6 +255,7 @@ class MonitoringBot:
     def mainMenuHandler(message):
         text = message.text
         username = message.from_user.username
+        logger.debug(f'mainMenuHandler(username={username})')
 
         if not MonitoringBot.__checkUserWhitelisted(message, username):
             return
