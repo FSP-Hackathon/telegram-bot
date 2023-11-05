@@ -204,15 +204,35 @@ class MonitoringBot:
 
         MonitoringBot.bot.send_message(message.chat.id, str(info))
 
-    @bot.message_handler(content_types=['actions'])
-    def shortcutsHandler(message):
-        text = message.text
+    @bot.message_handler(commands=['actions'])
+    def onShortcuts(message):
         username = message.from_user.username
+
+        if not MonitoringBot.__checkUserWhitelisted(message, username):
+            return
 
         selected = BotUsersDatabase.getSelectedDatabase(username)
 
         if selected == None:
-            text = Strings.translate('not_selected')
+            MonitoringBot.bot.send_message(
+                message.chat.id,
+                Strings.translate('not_selected'),
+                reply_markup=shortcutsKeyboard(),
+            )
+            return
+
+        MonitoringBot.bot.send_message(
+            message.chat.id,
+            Strings.translate('select_shortcut') + selected + '"',
+            reply_markup=shortcutsKeyboard(),
+        )
+
+    @bot.message_handler(content_types=['text'])
+    def shortcutsHandler(message):
+        text = message.text
+        username = message.from_user.username
+
+        if not MonitoringBot.__checkUserWhitelisted(message, username):
             return
 
         shortcut = None
@@ -234,6 +254,9 @@ class MonitoringBot:
         text = message.text
         username = message.from_user.username
 
+        if not MonitoringBot.__checkUserWhitelisted(message, username):
+            return
+
         if text == Strings.translate('menu_databases'):
             MonitoringBot.onDatabases(message)
         elif text == Strings.translate('menu_current'):
@@ -241,7 +264,7 @@ class MonitoringBot:
         elif text == Strings.translate('menu_main'):
             MonitoringBot.onStart(message)
         elif text == Strings.translate('menu_shortcuts'):
-            MonitoringBot.shortcutsHandler(message)
+            MonitoringBot.onShortcuts(message)
 
         if text == Strings.translate('menu_debug') and username in DEVS:
             MonitoringBot.onDebug(message)
