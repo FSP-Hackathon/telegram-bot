@@ -124,6 +124,8 @@ class MonitoringBot:
             MonitoringBot.databases(message)
         elif text == Strings.translate('menu_current'):
             MonitoringBot.currentDatabase(message)
+        elif text == Strings.translate('main_menu'):
+            MonitoringBot.start(message)
 
         if text == Strings.translate('menu_debug') and username in DEVS:
             MonitoringBot.debug(message)
@@ -197,11 +199,12 @@ class MonitoringBot:
         website = types.WebAppInfo(
             'https://6546f5ab30cd2a7356448aa5--shimmering-babka-0083c0.netlify.app/',
         )
-        button = types.KeyboardButton(
+        metrcis_button = types.KeyboardButton(
             text=Strings.translate('check_metrics'),
             web_app=website
         )
-        markup.add(button)
+        menu_button = types.KeyboardButton(text=Strings.translate('main_menu'))
+        markup.add(metrcis_button, menu_button)
 
         BotUsersDatabase.setSelectedDatabase(username, message.text)
 
