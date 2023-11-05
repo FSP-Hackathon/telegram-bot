@@ -7,6 +7,7 @@ class Strings:
             'internal_error': '❌ Произошла ошибка в базе данных ',
             'select_database': 'Выберите БД для дальнейшей работы',
             'select_shortcut': 'Выберите действие для базы данных "',
+            'selected_shortcut': 'Действие было отправлено',
             'selected_database': 'Теперь вы работаете с базой данных "',
             'current_database': 'Текущая выбранная база данных: "',
             'not_selected': 'База данных еще не выбрана!',
@@ -22,7 +23,6 @@ class Strings:
             'shortcut_shutdown': '⛔ Выключить',
             'shortcut_restore': '♻️ Восстановить',
             'empty': '<Пусто>',
-            'shortcut_selected': 'Действие было отправлено',
         }
         # en = {}
         # us = {}

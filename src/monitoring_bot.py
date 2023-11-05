@@ -114,6 +114,21 @@ class MonitoringBot:
         #     MonitoringBot.actionsHandler,
         # )
 
+    def onDatabaseSelected(message):
+        username = message.from_user.username
+        logger.debug(f'onDatabaseSelected(username={username})')
+
+        if not MonitoringBot.__checkUserWhitelisted(message, username):
+            return
+
+        BotUsersDatabase.setSelectedDatabase(username, message.text)
+
+        MonitoringBot.bot.send_message(
+            message.chat.id,
+            Strings.translate('selected_database') + message.text + '"',
+            reply_markup=databaseActionsKeyboard(Strings.WEB_VIEW_URL),
+        )
+
     def onShortcutSelected(message):
         text = message.text
         username = message.from_user.username
@@ -136,19 +151,9 @@ class MonitoringBot:
 
         # TODO: Send action to backend
 
-    def onDatabaseSelected(message):
-        username = message.from_user.username
-        logger.debug(f'onDatabaseSelected(username={username})')
-
-        if not MonitoringBot.__checkUserWhitelisted(message, username):
-            return
-
-        BotUsersDatabase.setSelectedDatabase(username, message.text)
-
         MonitoringBot.bot.send_message(
             message.chat.id,
-            Strings.translate('selected_database') + message.text + '"',
-            reply_markup=databaseActionsKeyboard(Strings.WEB_VIEW_URL),
+            Strings.translate('selected_shortcut'),
         )
 
     # @bot.message_handler(commands=['start'], is_whitelisted=True)
@@ -240,7 +245,7 @@ class MonitoringBot:
             MonitoringBot.bot.send_message(
                 message.chat.id,
                 Strings.translate('not_selected'),
-                reply_markup=shortcutsKeyboard(),
+                reply_markup=types.ReplyKeyboardRemove(),
             )
             return
 
