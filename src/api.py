@@ -6,7 +6,6 @@ import asyncio
 
 from flask import Flask, request, jsonify
 
-from bot import Alert, Bot
 from constants.strings import Strings
 from monitoring_bot import MonitoringBot
 
