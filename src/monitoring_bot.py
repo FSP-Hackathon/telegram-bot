@@ -124,7 +124,7 @@ class MonitoringBot:
             MonitoringBot.databases(message)
         elif text == Strings.translate('menu_current'):
             MonitoringBot.currentDatabase(message)
-        elif text == Strings.translate('main_menu'):
+        elif text == Strings.translate('menu_main'):
             MonitoringBot.start(message)
 
         if text == Strings.translate('menu_debug') and username in DEVS:
