@@ -6,6 +6,7 @@ class Strings:
             'welcome': 'Добро пожаловать!',
             'internal_error': 'Произошла ошибка!\n\n[INTERNAL_ERROR]: ',
             'select_database': 'Выберите БД для дальнейшей работы',
+            'selected_database': 'Теперь вы работаете с БД "'
         }
         # en = {}
         # us = {}

@@ -23,9 +23,9 @@ class MonitoringBot:
 
     bot = __init()
 
-    def run() -> None:
-        logger.debug(f'run()')
-        BotUsersDatabase.init(drop=False)
+    def run(drop=False) -> None:
+        logger.debug(f'run(drop={drop})')
+        BotUsersDatabase.init(drop)
         MonitoringBot.bot.infinity_polling()
 
     def __getChatOfUser(user: str) -> str:
@@ -107,12 +107,30 @@ class MonitoringBot:
             button = types.KeyboardButton(database)
             markup.add(button)
 
-        MonitoringBot.bot.send_message(
+        answer = MonitoringBot.bot.send_message(
             message.chat.id, 
             Strings.translate('select_database'), 
             reply_markup=markup,
         )
 
+        MonitoringBot.bot.register_next_step_handler(answer, MonitoringBot.selectDatabase)
+
+    def selectDatabase(message):
+        username = message.from_user.username
+        logger.debug(f'selectDatabase(username={username})')
+
+        if not MonitoringBot.__checkUserWhitelisted(message, username):
+            return
+
+        markup = types.ReplyKeyboardRemove()
+
+        BotUsersDatabase.setSelectedDatabase(username, message.text)
+
+        MonitoringBot.bot.send_message(
+            message.chat.id, 
+            Strings.translate('selected_database') + message.text + '"', 
+            reply_markup=markup,
+        )
 
 if __name__ == '__main__':
     MonitoringBot.run()

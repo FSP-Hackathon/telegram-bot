@@ -80,6 +80,22 @@ class BotUsersDatabase:
             BotUsersDatabase.__getCursor().execute(sql, (username, chatId))
             BotUsersDatabase.connection.commit()
 
+    def setSelectedDatabase(username: str, selectedDatabase: str):
+        logger.debug(
+            f'setSelectedDatabase(username = {username}, selectedDatabase = {selectedDatabase})'
+        )
+        BotUsersDatabase.__checkInit()
+        path = os.path.dirname(os.path.realpath(__file__))
+
+        logger.debug(f'setSelectedDatabase(path = {path}')
+
+        sql = f'UPDATE bot_users SET selected_db = %s WHERE username = %s'
+
+        logger.debug(f'setSelectedDatabase(sql = {sql}')
+
+        BotUsersDatabase.__getCursor().execute(sql, (username, selectedDatabase))
+        BotUsersDatabase.connection.commit()
+
     def getChatIdByUsername(username: str):
         BotUsersDatabase.__checkInit()
 
