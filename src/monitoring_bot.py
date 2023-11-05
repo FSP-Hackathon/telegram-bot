@@ -114,9 +114,31 @@ class MonitoringBot:
         #     MonitoringBot.actionsHandler,
         # )
 
+    def onShortcutSelected(message):
+        text = message.text
+        username = message.from_user.username
+        logger.debug(f'onShortcutSelected(username={username})')
+
+        if not MonitoringBot.__checkUserWhitelisted(message, username):
+            return
+        
+        shortcut = None
+        if text == Strings.translate('shortcut_restart'):
+            shortcut = 'restart'
+        elif text == Strings.translate('shortcut_backup'):
+            shortcut = 'backup'
+        elif text == Strings.translate('shortcut_terminate'):
+            shortcut = 'terminate'
+        elif text == Strings.translate('shortcut_restore'):
+            shortcut = 'restore'
+        elif text == Strings.translate('shortcut_shutdown'):
+            shortcut = 'shutdown'
+
+        # TODO: Send action to backend
+
     def onDatabaseSelected(message):
         username = message.from_user.username
-        logger.debug(f'selectDatabase(username={username})')
+        logger.debug(f'onDatabaseSelected(username={username})')
 
         if not MonitoringBot.__checkUserWhitelisted(message, username):
             return
@@ -133,7 +155,7 @@ class MonitoringBot:
     @bot.message_handler(commands=['start'])
     def onStart(message):
         username = message.from_user.username
-        logger.debug(f'start(username={username})')
+        logger.debug(f'onStart(username={username})')
 
         BotUsersDatabase.addUserIfNotExists(
             username=username,
@@ -222,34 +244,16 @@ class MonitoringBot:
             )
             return
 
-        MonitoringBot.bot.send_message(
+        answer = MonitoringBot.bot.send_message(
             message.chat.id,
             Strings.translate('select_shortcut') + selected + '"',
             reply_markup=shortcutsKeyboard(),
         )
 
-    @bot.message_handler(content_types=['text'])
-    def shortcutsHandler(message):
-        text = message.text
-        username = message.from_user.username
-        logger.debug(f'shortcutsHandler(username={username})')
-
-        if not MonitoringBot.__checkUserWhitelisted(message, username):
-            return
-
-        shortcut = None
-        if text == Strings.translate('shortcut_restart'):
-            shortcut = 'restart'
-        elif text == Strings.translate('shortcut_backup'):
-            shortcut = 'backup'
-        elif text == Strings.translate('shortcut_terminate'):
-            shortcut = 'terminate'
-        elif text == Strings.translate('shortcut_restore'):
-            shortcut = 'restore'
-        elif text == Strings.translate('shortcut_shutdown'):
-            shortcut = 'shutdown'
-
-        # TODO: Send action to backend
+        MonitoringBot.bot.register_next_step_handler(
+            answer,
+            MonitoringBot.onShortcutSelected,
+        )
 
     @bot.message_handler(content_types=['text'])
     def mainMenuHandler(message):
@@ -271,7 +275,6 @@ class MonitoringBot:
 
         if text == Strings.translate('menu_debug') and username in DEVS:
             MonitoringBot.onDebug(message)
-
 
 if __name__ == '__main__':
     MonitoringBot.run()
