@@ -101,7 +101,7 @@ class BotUsersDatabase:
         cursor.execute(sql)
         result = cursor.fetchall()
 
-        logger.debug(f'getSelectedDatabase(result = {result})')        
+        logger.debug(f'getAll(result = {result})')        
         return result
 
     def getSelectedDatabase(username: str):

@@ -145,7 +145,7 @@ class MonitoringBot:
         if info == None:
             info = '<Пусто>'
 
-        MonitoringBot.bot.send_message(message.chat.id, info)
+        MonitoringBot.bot.send_message(message.chat.id, str(info))
 
     def selectDatabase(message):
         username = message.from_user.username
