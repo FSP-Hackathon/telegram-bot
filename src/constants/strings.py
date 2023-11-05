@@ -7,7 +7,8 @@ class Strings:
             'internal_error': 'Произошла ошибка!\n\n[INTERNAL_ERROR]: ',
             'select_database': 'Выберите БД для дальнейшей работы',
             'selected_database': 'Теперь вы работаете с базой данных "',
-            'current_database': 'Текущая выбранная база данных: "'
+            'current_database': 'Текущая выбранная база данных: "',
+            'not_selected': 'База данных еще не выбрана!',
         }
         # en = {}
         # us = {}

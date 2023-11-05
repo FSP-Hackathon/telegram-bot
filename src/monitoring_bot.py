@@ -124,10 +124,13 @@ class MonitoringBot:
             return
 
         current = BotUsersDatabase.getSelectedDatabase(username)
-        answer = MonitoringBot.bot.send_message(
-            message.chat.id, 
-            Strings.translate('current_database') + current + '"', 
-        )
+
+        if current == None:
+            text = Strings.translate('not_selected')
+        else:
+            text = Strings.translate('current_database') + current + '"'
+
+        MonitoringBot.bot.send_message(message.chat.id, text)
 
     def selectDatabase(message):
         username = message.from_user.username
