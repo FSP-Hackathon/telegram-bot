@@ -68,7 +68,8 @@ class BotUsersDatabase:
             logging.error(f'Error while working with BotUsersDatabase! {e}')
 
     def addUserIfNotExists(username: str, chatId: str) -> None:
-        logger.debug(f'addUserIfNotExists(username = {username}, chatId = {chatId})')
+        logger.debug(
+            f'addUserIfNotExists(username = {username}, chatId = {chatId})')
         BotUsersDatabase.__checkInit()
         path = os.path.dirname(os.path.realpath(__file__))
 
@@ -101,7 +102,7 @@ class BotUsersDatabase:
         cursor.execute(sql)
         result = cursor.fetchall()
 
-        logger.debug(f'getAll(result = {result})')        
+        logger.debug(f'getAll(result = {result})')
         return result
 
     def getSelectedDatabase(username: str):
@@ -116,10 +117,10 @@ class BotUsersDatabase:
         result = cursor.fetchone()
 
         logger.debug(f'getSelectedDatabase(result = {result})')
-        
+
         if result == None:
             return None
-        
+
         return result[0]
 
     def getChatIdByUsername(username: str):
@@ -127,7 +128,7 @@ class BotUsersDatabase:
 
         logger.debug(f'getChatIdByUsername(username = {username})')
         cursor = BotUsersDatabase.__getCursor()
-    
+
         cursor.execute('SELECT * FROM bot_users')
         logger.debug(
             f'getChatIdByUsername(all = {cursor.fetchall()})',
@@ -140,9 +141,8 @@ class BotUsersDatabase:
         result = cursor.fetchone()
 
         logger.debug(f'getChatIdByUsername(result = {result})')
-        
+
         if result == None:
             return None
-        
+
         return result[0]
-        

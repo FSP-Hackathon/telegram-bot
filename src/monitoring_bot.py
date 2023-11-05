@@ -52,7 +52,8 @@ class MonitoringBot:
     def __checkUserWhitelisted(message, username: str) -> bool:
         isWhitelisted = MonitoringBot.isUserWhitelisted(username)
         if not isWhitelisted:
-            MonitoringBot.bot.reply_to(message, Strings.translate('not_whitelisted'))
+            MonitoringBot.bot.reply_to(
+                message, Strings.translate('not_whitelisted'))
         return isWhitelisted
 
     def __getDatabasesByUser(username: str) -> list[str]:
@@ -108,12 +109,13 @@ class MonitoringBot:
             markup.add(button)
 
         answer = MonitoringBot.bot.send_message(
-            message.chat.id, 
-            Strings.translate('select_database'), 
+            message.chat.id,
+            Strings.translate('select_database'),
             reply_markup=markup,
         )
 
-        MonitoringBot.bot.register_next_step_handler(answer, MonitoringBot.selectDatabase)
+        MonitoringBot.bot.register_next_step_handler(
+            answer, MonitoringBot.selectDatabase)
 
     @bot.message_handler(commands=['current'])
     def currentDatabase(message):
@@ -159,10 +161,11 @@ class MonitoringBot:
         BotUsersDatabase.setSelectedDatabase(username, message.text)
 
         MonitoringBot.bot.send_message(
-            message.chat.id, 
-            Strings.translate('selected_database') + message.text + '"', 
+            message.chat.id,
+            Strings.translate('selected_database') + message.text + '"',
             reply_markup=markup,
         )
+
 
 if __name__ == '__main__':
     MonitoringBot.run()
