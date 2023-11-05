@@ -97,7 +97,7 @@ class BotUsersDatabase:
         BotUsersDatabase.__checkInit()
 
         sql = f'SELECT selected_db FROM bot_users WHERE username = %s'
-        logger.debug(f'getSelectedDatabase(sql = {sql}')
+        logger.debug(f'getSelectedDatabase(sql = {sql})')
 
         cursor = BotUsersDatabase.__getCursor()
         cursor.execute(sql, (username,))
