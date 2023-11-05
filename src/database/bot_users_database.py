@@ -92,6 +92,18 @@ class BotUsersDatabase:
         BotUsersDatabase.__getCursor().execute(sql, (username, selectedDatabase))
         BotUsersDatabase.connection.commit()
 
+    def getAll():
+        logger.debug(f'getAll()')
+        BotUsersDatabase.__checkInit()
+
+        sql = f'SELECT * FROM bot_users'
+        cursor = BotUsersDatabase.__getCursor()
+        cursor.execute(sql)
+        result = cursor.fetchall()
+
+        logger.debug(f'getSelectedDatabase(result = {result})')        
+        return result
+
     def getSelectedDatabase(username: str):
         logger.debug(f'getSelectedDatabase(username = {username})')
         BotUsersDatabase.__checkInit()
@@ -133,3 +145,4 @@ class BotUsersDatabase:
             return None
         
         return result[0]
+        

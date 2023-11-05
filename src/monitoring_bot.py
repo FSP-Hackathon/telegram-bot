@@ -132,6 +132,18 @@ class MonitoringBot:
 
         MonitoringBot.bot.send_message(message.chat.id, text)
 
+    # TODO: Убрать
+    @bot.message_handler(commands=['debug'])
+    def debug(message):
+        username = message.from_user.username
+        logger.debug(f'debug(username={username})')
+
+        MonitoringBot.__checkUserWhitelisted(message, username)
+
+        info = BotUsersDatabase.getAll()
+
+        MonitoringBot.bot.send_message(message.chat.id, info)
+
     def selectDatabase(message):
         username = message.from_user.username
         logger.debug(f'selectDatabase(username={username})')
