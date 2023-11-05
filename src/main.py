@@ -6,11 +6,13 @@ import argparse
 from monitoring_bot import MonitoringBot
 
 # TODO
-# 1. Проврека на админа в кажом запросе
-# 2. Алертинг
-# 3. Интеграция WebView
-# 4. Шорткаты
-# 5. Базовая навигация с кнопками
+# 1. Проврека на админа в каждом запросе +
+# 2. Алертинг +
+# 3. Интеграция WebView +
+# 4. Шорткаты +
+# 5. Базовая навигация с кнопками +
+# 6. Получение списка БД с сервера
+# 7. Менюшка на старте
 
 def main(drop=False) -> None:
     thread = threading.Thread(target = MonitoringBot.run, args=(drop,))

@@ -52,7 +52,7 @@ def __parseRequest(request) -> (str, str):
 def alert():
     error_message, token = __parseRequest(request)
     users = __getUsersToNotify(token)
-    MonitoringBot.sendMessageToUsers(msg=error_message, users=users)
+    MonitoringBot.sendErrorMessageToUsers(msg=error_message, users=users)
     return ('', 200)
 
 

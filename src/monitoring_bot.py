@@ -49,6 +49,10 @@ class MonitoringBot:
         for user in users:
             MonitoringBot.sendMessageToUser(user=user, msg=msg)
 
+    def sendErrorMessageToUsers(msg: str, users: list[str]) -> None:
+        logger.debug(f'sendErrorMessageToUsers(msg = {msg}, users = {users})')
+        MonitoringBot.sendMessageToUsers(Strings.translate('internal_error') + msg, users)
+
     def __checkUserWhitelisted(message, username: str) -> bool:
         isWhitelisted = MonitoringBot.isUserWhitelisted(username)
         if not isWhitelisted:
@@ -160,7 +164,8 @@ class MonitoringBot:
 
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         website = types.WebAppInfo(
-            'https://6546f5ab30cd2a7356448aa5--shimmering-babka-0083c0.netlify.app/')
+            'https://6546f5ab30cd2a7356448aa5--shimmering-babka-0083c0.netlify.app/',
+        )
         button = types.KeyboardButton(
             text=Strings.translate('check_metrics'),
             web_app=website
