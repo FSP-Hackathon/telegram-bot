@@ -51,7 +51,10 @@ class MonitoringBot:
 
     def sendErrorMessageToUsers(msg: str, users: list[str]) -> None:
         logger.debug(f'sendErrorMessageToUsers(msg = {msg}, users = {users})')
-        MonitoringBot.sendMessageToUsers(Strings.translate('internal_error') + msg, users)
+        MonitoringBot.sendMessageToUsers(
+            msg=Strings.translate('internal_error') + '```sh\n' + msg + "\n```", 
+            users=users
+        )
 
     def __checkUserWhitelisted(message, username: str) -> bool:
         isWhitelisted = MonitoringBot.isUserWhitelisted(username)
