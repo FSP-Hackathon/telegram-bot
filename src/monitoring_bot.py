@@ -86,6 +86,14 @@ class MonitoringBot:
 
         return response.json()
 
+    def __sendShortcut(shortcut: str):
+        base = 'http://84.201.153.19:10000'
+        path = Strings.CHECK_USER_PATH
+
+        url = f'{base}/{path}/{shortcut}'
+
+        requests.post(url)
+
     def getDatabasesByUser(username: str) -> list[str]:
         logger.debug(f'__getDatabasesByUser(username={username})')
 
@@ -109,11 +117,6 @@ class MonitoringBot:
             users=users,
         )
 
-        # MonitoringBot.bot.register_next_step_handler(
-        #     answer,
-        #     MonitoringBot.actionsHandler,
-        # )
-
     def onDatabaseSelected(message):
         username = message.from_user.username
         logger.debug(f'onDatabaseSelected(username={username})')
@@ -136,7 +139,7 @@ class MonitoringBot:
 
         if not MonitoringBot.__checkUserWhitelisted(message, username):
             return
-        
+
         shortcut = None
         if text == Strings.translate('shortcut_restart'):
             shortcut = 'restart'
@@ -149,7 +152,7 @@ class MonitoringBot:
         elif text == Strings.translate('shortcut_shutdown'):
             shortcut = 'shutdown'
 
-        # TODO: Send action to backend
+        MonitoringBot.__sendShortcut(shortcut)
 
         MonitoringBot.bot.send_message(
             message.chat.id,
@@ -281,6 +284,7 @@ class MonitoringBot:
 
         if text == Strings.translate('menu_debug') and username in DEVS:
             MonitoringBot.onDebug(message)
+
 
 if __name__ == '__main__':
     MonitoringBot.run()
