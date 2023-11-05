@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 from database.bot_users_database import BotUsersDatabase
 from keyboards.databases_keyboard import databasesKeyboard
 from keyboards.main_menu_keyboard import mainMenuKeyboard
-from keyboards.select_database_keyboard import databaseActionsKeyboard
+from keyboards.database_actions_keyboard import databaseActionsKeyboard
 from keyboards.shortcuts_keyboard import shortcutsKeyboard
 
 logger = logging.getLogger(__name__)
@@ -154,6 +154,7 @@ class MonitoringBot:
         MonitoringBot.bot.send_message(
             message.chat.id,
             Strings.translate('selected_shortcut'),
+            reply_markup=databaseActionsKeyboard(),
         )
 
     # @bot.message_handler(commands=['start'], is_whitelisted=True)
