@@ -13,6 +13,8 @@ logging.getLogger(__name__).setLevel(logging.DEBUG)
 
 ACCESS_SERVICE_BASE_URL_KEY = 'ACCESS_SERVICE_BASE_URL'
 
+DEVS = ['OwlCodR']
+
 
 class MonitoringBot:
     def __init():
@@ -42,7 +44,8 @@ class MonitoringBot:
             logger.warning(f'chat_id of user {user} is None!')
             return
 
-        MonitoringBot.bot.send_message(chat_id=chat, text=msg, parse_mode='MarkdownV2')
+        MonitoringBot.bot.send_message(
+            chat_id=chat, text=msg, parse_mode='MarkdownV2')
 
     def sendMessageToUsers(msg: str, users: list[str]) -> None:
         logger.debug(f'sendMessageToUsers(msg = {msg}, users = {users})')
@@ -52,7 +55,8 @@ class MonitoringBot:
     def sendErrorMessageToUsers(msg: str, users: list[str], db_name: str) -> None:
         logger.debug(f'sendErrorMessageToUsers(msg = {msg}, users = {users})')
         MonitoringBot.sendMessageToUsers(
-            msg=Strings.translate('internal_error') + f'"{db_name}"\n\n' + '```sh\n' + msg + "\n```", 
+            msg=Strings.translate('internal_error') +
+            f'"{db_name}"\n\n' + '```sh\n' + msg + "\n```",
             users=users
         )
 
@@ -88,9 +92,21 @@ class MonitoringBot:
         username = message.from_user.username
         logger.debug(f'start(username={username})')
 
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+
+        menu_databases = types.KeyboardButton(
+            Strings.translate('menu_databases'))
+        menu_current = types.KeyboardButton(Strings.translate('menu_current'))
+        markup.add(menu_databases, menu_current)
+
+        if username in DEVS:
+            menu_debug = types.KeyboardButton(Strings.translate('menu_debug'))
+            markup.add(menu_debug)
+
         BotUsersDatabase.addUserIfNotExists(
             username=username,
             chatId=message.chat.id,
+            reply_markup=markup,
         )
 
         if MonitoringBot.isUserWhitelisted(username):
@@ -99,6 +115,19 @@ class MonitoringBot:
             text = Strings.translate('not_whitelisted')
 
         MonitoringBot.bot.reply_to(message, text)
+
+    @bot.message_handler(content_types=['text'])
+    def mainMenuHandler(message):
+        text = message.text
+        username = message.from_user.username
+
+        if text == Strings.translate('menu_databases'):
+            MonitoringBot.databases(message)
+        elif text == Strings.translate('menu_current'):
+            MonitoringBot.currentDatabase(message)
+
+        if text == Strings.translate('menu_debug') and username in DEVS:
+            MonitoringBot.debug(message)
 
     @bot.message_handler(commands=['databases'])
     def databases(message):
