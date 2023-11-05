@@ -21,6 +21,9 @@ def shortcutsKeyboard():
     shortcut_shutdown = types.KeyboardButton(
         text=Strings.translate('shortcut_shutdown'),
     )
+    back = types.KeyboardButton(
+        text=Strings.translate('back'),
+    )
 
     markup.add(
         shortcut_restart,
@@ -28,6 +31,7 @@ def shortcutsKeyboard():
         shortcut_backup,
         shortcut_terminate,
         shortcut_shutdown,
+        back,
     )
 
     return markup

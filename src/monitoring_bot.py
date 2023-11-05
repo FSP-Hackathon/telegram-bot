@@ -153,6 +153,9 @@ class MonitoringBot:
             shortcut = 'restore'
         elif text == Strings.translate('shortcut_shutdown'):
             shortcut = 'shutdown'
+        elif text == Strings.translate('back'):
+            MonitoringBot.onDatabaseSelected(message)
+            return
 
         MonitoringBot.__sendShortcut(shortcut)
 

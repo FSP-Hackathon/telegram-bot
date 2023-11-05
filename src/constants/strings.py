@@ -23,6 +23,7 @@ class Strings:
             'shortcut_shutdown': '⛔ Выключить',
             'shortcut_restore': '♻️ Восстановить',
             'empty': '<Пусто>',
+            'back': '⬅️ Назад'
         }
         # en = {}
         # us = {}
