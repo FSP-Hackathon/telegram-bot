@@ -156,9 +156,9 @@ class MonitoringBot:
         if not MonitoringBot.__checkUserWhitelisted(message, username):
             return
 
-        markup = types.ReplyKeyboardMarkup(row_width=1)
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         website = types.WebAppInfo("https://telegram.mihailgok.ru")
-        button = types.KeyboardButton(text="Тест", web_app=website)
+        button = types.KeyboardButton(text=Strings.translate('check_metrics'), web_app=website)
         markup.add(button)
 
         BotUsersDatabase.setSelectedDatabase(username, message.text)

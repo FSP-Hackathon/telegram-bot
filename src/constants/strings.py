@@ -9,6 +9,7 @@ class Strings:
             'selected_database': 'Теперь вы работаете с базой данных "',
             'current_database': 'Текущая выбранная база данных: "',
             'not_selected': 'База данных еще не выбрана!',
+            'check_metrics': 'Посмотреть статистику'
         }
         # en = {}
         # us = {}
