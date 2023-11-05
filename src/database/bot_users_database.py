@@ -89,7 +89,7 @@ class BotUsersDatabase:
         sql = f'UPDATE bot_users SET selected_db = %s WHERE username = %s'
         logger.debug(f'setSelectedDatabase(sql = {sql}')
 
-        BotUsersDatabase.__getCursor().execute(sql, (username, selectedDatabase))
+        BotUsersDatabase.__getCursor().execute(sql, (selectedDatabase, username))
         BotUsersDatabase.connection.commit()
 
     def getAll():
