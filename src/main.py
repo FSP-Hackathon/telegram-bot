@@ -14,6 +14,7 @@ from monitoring_bot import MonitoringBot
 # 6. Получение списка доступных БД с сервера +
 # 7. Менюшка на старте +
 # 8. Рекомендации
+# 9. Docker
 
 def main(drop=False) -> None:
     thread = threading.Thread(target = MonitoringBot.run, args=(drop,))

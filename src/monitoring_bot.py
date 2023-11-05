@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 logging.getLogger(__name__).setLevel(logging.DEBUG)
 
 ACCESS_SERVICE_BASE_URL_KEY = 'ACCESS_SERVICE_BASE_URL'
-
+WEB_VIEW_URL = 'https://monitoring-bot.netlify.app/'
 DEVS = ['OwlCodR', 'zair_t', 'mthgradr', 'yulia_sharkova', 'danilkandakov']
 
 
@@ -36,7 +36,7 @@ class MonitoringBot:
         logger.debug(f'__getChatOfUser(chat = {chat})')
         return chat
 
-    def sendMessageToUser(msg: str, user: str) -> None:
+    def sendMessageToUser(msg: str, user: str, reply_markup) -> None:
         logger.debug(f'sendMessageToUser(user = {user}, msg = {msg})')
         chat = MonitoringBot.__getChatOfUser(user)
 
@@ -45,19 +45,33 @@ class MonitoringBot:
             return
 
         MonitoringBot.bot.send_message(
-            chat_id=chat, text=msg, parse_mode='MarkdownV2')
+            chat_id=chat, 
+            text=msg, 
+            parse_mode='MarkdownV2', 
+            reply_markup=reply_markup,
+        )
 
-    def sendMessageToUsers(msg: str, users: list[str]) -> None:
+    def sendMessageToUsers(msg: str, users: list[str], reply_markup) -> None:
         logger.debug(f'sendMessageToUsers(msg = {msg}, users = {users})')
         for user in users:
-            MonitoringBot.sendMessageToUser(user=user, msg=msg)
+            MonitoringBot.sendMessageToUser(user=user, msg=msg, reply_markup=reply_markup)
 
     def sendErrorMessageToUsers(msg: str, users: list[str], db_name: str) -> None:
         logger.debug(f'sendErrorMessageToUsers(msg = {msg}, users = {users})')
+
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        # metrcis_button = types.KeyboardButton(
+        #     text=Strings.translate('check_metrics'),
+        #     web_app=website,
+        # )
+        # menu_button = types.KeyboardButton(text=Strings.translate('menu_main'))
+        # markup.add(metrcis_button, menu_button)
+
         MonitoringBot.sendMessageToUsers(
             msg=Strings.translate('internal_error') +
             f'"{db_name}"\n\n' + '```sh\n' + msg + "\n```",
-            users=users
+            users=users,
+            reply_markup=markup,
         )
 
     def __checkUserWhitelisted(message, username: str) -> bool:
@@ -105,9 +119,7 @@ class MonitoringBot:
             return
 
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-        website = types.WebAppInfo(
-            'https://6546f5ab30cd2a7356448aa5--shimmering-babka-0083c0.netlify.app/',
-        )
+        website = types.WebAppInfo(WEB_VIEW_URL)
         metrcis_button = types.KeyboardButton(
             text=Strings.translate('check_metrics'),
             web_app=website
