@@ -29,6 +29,7 @@ class Strings:
     def translate(key: str) -> str:
         return Strings.translations[Strings.current][key]
 
+    WEB_VIEW_URL = 'https://monitoring-bot.netlify.app/'
 
     CHECK_USER_PATH = 'api/user/check' # Находится ли юзер в вайтлисте
     DATABASES_PATH = 'api/user/databases' # Какие БД доступны юзеру
