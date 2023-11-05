@@ -7,6 +7,7 @@ class Strings:
             'internal_error': '❌ Произошла ошибка в базе данных ',
             'select_database': 'Выберите БД для дальнейшей работы',
             'select_shortcut': 'Выберите действие для базы данных "',
+            'select_action': 'Выберите действие',
             'selected_shortcut': 'Действие было отправлено',
             'selected_database': 'Теперь вы работаете с базой данных "',
             'current_database': 'Текущая выбранная база данных: "',
