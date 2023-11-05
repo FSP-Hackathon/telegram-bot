@@ -90,7 +90,11 @@ class MonitoringBot:
 
         url = f'{base}/{path}/{shortcut}'
 
-        requests.post(url)
+        try:
+            requests.post(url)
+        except Exception:
+            logger.error('ERROR: __sendShortcut()')
+
 
     def getDatabasesByUser(username: str) -> list[str]:
         logger.debug(f'__getDatabasesByUser(username={username})')
