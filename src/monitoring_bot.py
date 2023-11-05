@@ -138,7 +138,7 @@ class MonitoringBot:
         username = message.from_user.username
         logger.debug(f'debug(username={username})')
 
-        MonitoringBot.__checkUserWhitelisted(message, username)
+        # MonitoringBot.__checkUserWhitelisted(message, username)
 
         info = BotUsersDatabase.getAll()
 
