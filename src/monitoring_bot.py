@@ -106,7 +106,6 @@ class MonitoringBot:
         BotUsersDatabase.addUserIfNotExists(
             username=username,
             chatId=message.chat.id,
-            reply_markup=markup,
         )
 
         if MonitoringBot.isUserWhitelisted(username):
@@ -114,7 +113,7 @@ class MonitoringBot:
         else:
             text = Strings.translate('not_whitelisted')
 
-        MonitoringBot.bot.reply_to(message, text)
+        MonitoringBot.bot.reply_to(message, text, reply_markup=markup)
 
     @bot.message_handler(content_types=['text'])
     def mainMenuHandler(message):
