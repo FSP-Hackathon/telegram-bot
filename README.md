@@ -2,7 +2,7 @@
 ---
 
 ## 📦 Стек
-- [python-telegram-bot](https://python-telegram-bot.org/)
+- [pyTelegramBotAPI]([https://python-telegram-bot.org/](https://pypi.org/project/pyTelegramBotAPI/))
 - psycopg2
 - Flask
 - logging
